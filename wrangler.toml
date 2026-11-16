@@ -1,0 +1,20 @@
+# Cloudflare Worker: serve o jogo (public/) e a API de salvamento na nuvem.
+# Deploy: npx wrangler deploy (Workers Builds faz isso sozinho a cada push na main).
+name = "carmen-sandiego"
+main = "worker/index.ts"
+compatibility_date = "2026-10-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+# A API passa pelo Worker; o resto é servido direto como arquivo estático.
+run_worker_first = ["/api/*"]
+
+# KV onde fica o progresso CIFRADO. Sem "id": o wrangler cria o namespace
+# automaticamente no primeiro deploy e mantém o vínculo nos próximos.
+[[kv_namespaces]]
+binding = "SAVE"
+
+# O segredo SAVE_AUTH_HASH NÃO fica aqui. Defina no painel:
+#   Workers & Pages > carmen-sandiego > Settings > Variables and Secrets > Add (tipo Secret)

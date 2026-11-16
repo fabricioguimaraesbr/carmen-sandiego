@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Onde Está Carmen Sandiego?</title>
+<meta name="theme-color" content="#0f1420">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Carmen">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1420; --panel:#171e2e; --panel2:#1e2739; --line:#2a3550;
+  --txt:#e8ecf4; --mut:#93a0b8; --red:#e0393e; --red2:#ff5a5f; --gold:#f2c14e; --ok:#3ecf8e;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.45}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.app{max-width:760px;margin:0 auto;padding:12px 12px 90px;min-height:100vh}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 2px 12px}
+.brand{font-weight:800;letter-spacing:.5px;font-size:15px}
+.brand b{color:var(--red2)}
+.badge{font-size:12px;color:var(--mut);text-align:right}
+.badge strong{color:var(--gold);display:block;font-size:13px}
+.clock{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.clock .t{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{flex:1;height:8px;background:var(--panel2);border-radius:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ok),var(--gold),var(--red));transition:width .5s}
+.clock .dl{font-size:12px;color:var(--mut);white-space:nowrap}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.city{position:relative;overflow:hidden}
+.city .flag{font-size:42px;line-height:1;float:right;margin-left:10px}
+.city h1{font-size:26px;line-height:1.15}
+.city .country{color:var(--mut);font-size:14px;margin-bottom:8px}
+.city p{color:#c9d1e0}
+.msg{min-height:84px}
+.msg .who{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:6px;font-weight:700}
+.msg .say{font-size:17px}
+.msg .warn{color:var(--red2);font-weight:700}
+.msg .sys{color:var(--mut);font-size:14px;margin-top:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 12px;text-align:left;transition:transform .08s,border-color .2s,background .2s;display:flex;align-items:center;gap:10px;min-height:54px}
+.btn:hover{border-color:#43527a;background:#222d44}
+.btn:active{transform:scale(.98)}
+.btn .ic{font-size:20px;width:26px;text-align:center;flex:none}
+.btn small{display:block;color:var(--mut);font-size:12px}
+.btn.primary{background:var(--red);border-color:var(--red)}
+.btn.primary:hover{background:var(--red2)}
+.btn.primary small{color:#ffe1e2}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.btn.wide{width:100%;grid-column:1/-1;justify-content:center;text-align:center}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:rgba(15,20,32,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:5}
+.tabs .in{display:flex;max-width:760px;width:100%}
+.tabs button{flex:1;padding:10px 4px 12px;font-size:12px;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:2px}
+.tabs button span{font-size:20px}
+.tabs button.on{color:var(--txt)}
+.tabs button.on span{filter:none}
+h2{font-size:18px;margin-bottom:10px}
+h3{font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin:14px 0 8px}
+.list li{list-style:none;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.list li:last-child{border:0}
+.list .c{color:var(--mut);font-size:12px;display:block}
+.sel{display:grid;grid-template-columns:110px 1fr;gap:8px 10px;align-items:center}
+.sel label{color:var(--mut);font-size:14px}
+select,input[type=text]{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:11px 12px;font:inherit}
+.warrant{border:1px dashed var(--gold);border-radius:12px;padding:12px;margin-top:12px;color:var(--gold)}
+.warrant.none{border-color:var(--line);color:var(--mut)}
+.crooks{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.crook{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13px}
+.crook b{font-size:15px;display:block;margin-bottom:4px}
+.crook .av{width:40px;height:40px;border-radius:50%;float:right;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#0f1420}
+.crook.match{border-color:var(--gold)}
+.crook.out{opacity:.35}
+.tag{display:inline-block;background:#0f1420;border:1px solid var(--line);border-radius:20px;padding:1px 8px;margin:2px 2px 0 0;font-size:12px}
+.tag.known{border-color:var(--gold);color:var(--gold)}
+.map svg{width:100%;height:auto;display:block;background:#0c111b;border-radius:10px}
+.center{text-align:center}
+.hero{padding:34px 18px;text-align:center}
+.hero .logo{font-size:13px;letter-spacing:4px;color:var(--mut);text-transform:uppercase}
+.hero h1{font-size:34px;line-height:1.1;margin:10px 0 6px}
+.hero h1 b{color:var(--red2)}
+.hero p{color:var(--mut);max-width:460px;margin:0 auto 18px}
+.stack>*+*{margin-top:10px}
+.big{font-size:52px;line-height:1}
+.fade{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1}
+.mute{color:var(--mut);font-size:14px}
+.pill{display:inline-block;padding:3px 10px;border-radius:20px;background:var(--panel2);border:1px solid var(--line);font-size:12px;color:var(--mut)}
+.modal{position:fixed;inset:0;background:rgba(5,8,14,.75);display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
+.modal .card{max-width:440px;width:100%}
+.hide{display:none!important}
+ .pix{font-family:"Press Start 2P",ui-monospace,monospace;letter-spacing:0;line-height:1.5}
+.banner{display:block;width:calc(100% + 32px);margin:-16px -16px 14px;image-rendering:pixelated;border-radius:var(--r) var(--r) 0 0;aspect-ratio:160/64}
+.crt{position:relative}
+.crt::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 1px,transparent 1px 3px);border-radius:inherit}
+.city h1.pix{font-size:20px}
+.fx{position:fixed;inset:0;z-index:20;background:radial-gradient(ellipse at center,#141c30,#03050a);display:flex;align-items:center;justify-content:center;padding:16px;cursor:pointer;animation:fade .25s}
+.fxbox{width:100%;max-width:620px}
+.fxstage{position:relative;border-radius:16px;overflow:hidden;border:2px solid #2a3550;box-shadow:0 0 0 4px #0b0f1a,0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(224,57,62,.15)}
+.fxstage canvas{display:block;width:100%;image-rendering:pixelated;aspect-ratio:160/90}
+#fxsign{position:absolute;left:39.5%;width:26%;top:25.8%;height:7.6%;display:flex;align-items:center;justify-content:center;font-family:"Press Start 2P",monospace;font-size:clamp(5px,1.5vw,9px);color:#1a1c2c;text-align:center;overflow:hidden;white-space:nowrap}
+#fxcap{text-align:center;margin-top:16px;color:var(--txt);font-size:13px;min-height:44px}
+#fxcap .pix{font-size:12px}
+#fxcap .sub{color:var(--mut);font-size:13px;margin-top:6px}
+#fxcap .warn{color:var(--red2);font-weight:700;font-size:15px}
+#fxcap .plane{color:var(--red2);display:inline-block;margin:0 6px;animation:bob .6s ease-in-out infinite alternate}
+.big-cap{font-size:22px!important;display:inline-block;animation:pop .35s cubic-bezier(.2,1.6,.4,1)}
+.big-cap.ok{color:var(--ok);text-shadow:0 0 18px rgba(62,207,142,.6)}
+.big-cap.bad{color:var(--red2);text-shadow:0 0 18px rgba(255,90,95,.6)}
+#fxbar{height:3px;background:#1e2739;border-radius:3px;margin-top:12px;overflow:hidden}
+#fxbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold))}
+.fxskip{text-align:center;color:#56627d;font-size:11px;margin-top:10px}
+.fx.flash .fxstage{animation:flash .35s,shake .4s}
+@keyframes flash{0%{filter:brightness(3) saturate(0)}100%{filter:none}}
+@keyframes bob{from{transform:translateY(-2px)}to{transform:translateY(2px)}}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+.stampwrap{background:rgba(5,8,14,.55)}
+.stamp{border:5px solid var(--red2);color:var(--red2);border-radius:14px;padding:18px 26px;text-align:center;transform:rotate(-8deg);background:rgba(23,30,46,.92);animation:stamp .45s cubic-bezier(.3,1.5,.5,1);box-shadow:0 0 40px rgba(255,90,95,.35)}
+.stamp .pix{font-size:24px}.stamp .pix.sm{font-size:12px;margin-top:4px}
+.stamp .nm{margin-top:10px;color:var(--txt);font-weight:800;font-size:18px}
+@keyframes stamp{0%{transform:scale(3) rotate(-20deg);opacity:0}70%{transform:scale(.92) rotate(-8deg);opacity:1}100%{transform:scale(1) rotate(-8deg)}}
+.typing::after{content:"▌";color:var(--gold);animation:blink .6s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.endcv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;image-rendering:pixelated}
+.hero{position:relative;overflow:hidden}
+.cbadge{font-size:11px;color:var(--mut);white-space:nowrap}
+.cbadge.ok{color:var(--ok)}.cbadge.auth,.cbadge.setup,.cbadge.erro{color:var(--gold)}
+.toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--line);padding:10px 16px;border-radius:12px;z-index:30;animation:fade .3s;font-size:14px}
+@media (max-width:420px){.city h1{font-size:22px}.sel{grid-template-columns:90px 1fr}}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<nav class="tabs hide" id="tabs"><div class="in">
+  <button data-tab="cidade" class="on"><span>🏙️</span>Cidade</button>
+  <button data-tab="dossie"><span>🗂️</span>Dossiê</button>
+  <button data-tab="notas"><span>📓</span>Caderno</button>
+  <button data-tab="mapa"><span>🗺️</span>Mapa</button>
+  <button data-tab="menu"><span>⚙️</span>Menu</button>
+</div></nav>
+<div id="modal"></div>
+<div id="fx" class="fx hide"><div class="fxbox"><div class="fxstage crt"><canvas id="fxc" width="160" height="90"></canvas><div id="fxsign"></div></div>
+<div id="fxcap"></div><div id="fxbar"><i></i></div><div class="fxskip">toque para pular</div></div></div>
+
+<script>
+"use strict";
+/* =========================================================
+   DADOS
+   ========================================================= */
+const TRAITS = {
+  sexo:     {nome:"Sexo",           ops:["Feminino","Masculino"]},
+  cabelo:   {nome:"Cabelo",         ops:["Preto","Castanho","Loiro","Ruivo"]},
+  hobby:    {nome:"Hobby",          ops:["Tênis","Alpinismo","Croquet","Paraquedismo","Música"]},
+  marca:    {nome:"Característica", ops:["Anel","Tatuagem","Cicatriz","Joias"]},
+  veiculo:  {nome:"Veículo",        ops:["Conversível","Limusine","Moto","Carro de corrida"]}
+};
+const TRAIT_ORDER = ["sexo","cabelo","hobby","marca","veiculo"];
+
+const GANG = [
+ {id:"carmen", nome:"Carmen Sandiego",     sexo:"Feminino", cabelo:"Preto",    hobby:"Tênis",        marca:"Joias",    veiculo:"Conversível", cor:"#e0393e",
+  bio:"Ex-agente da ACME e mente por trás da V.I.L.E. Ninguém jamais conseguiu prendê-la."},
+ {id:"merey",  nome:"Merey LaRoc",         sexo:"Feminino", cabelo:"Castanho", hobby:"Alpinismo",    marca:"Joias",    veiculo:"Limusine",    cor:"#c58cf2",
+  bio:"Herdeira entediada que trocou os bailes de gala por grandes golpes."},
+ {id:"katherine",nome:"Katherine Drib",    sexo:"Feminino", cabelo:"Ruivo",    hobby:"Croquet",      marca:"Tatuagem", veiculo:"Moto",        cor:"#ff8c5a",
+  bio:"Especialista em cofres. Diz que nenhuma fechadura resiste a ela por mais de um minuto."},
+ {id:"dazzle", nome:"Dazzle Annie Nonker", sexo:"Feminino", cabelo:"Loiro",    hobby:"Tênis",        marca:"Anel",     veiculo:"Carro de corrida", cor:"#f2c14e",
+  bio:"Mestra dos disfarces. Já se passou por embaixadora, chef e até estátua de museu."},
+ {id:"agatha", nome:"Lady Agatha Wayout",  sexo:"Feminino", cabelo:"Preto",    hobby:"Paraquedismo", marca:"Anel",     veiculo:"Limusine",    cor:"#7fb8ff",
+  bio:"Aristocrata que adora uma fuga espetacular, de preferência saltando de um avião."},
+ {id:"ihor",   nome:"Ihor Ihorovitch",     sexo:"Masculino",cabelo:"Loiro",    hobby:"Croquet",      marca:"Tatuagem", veiculo:"Limusine",    cor:"#7ee0c3",
+  bio:"Falsificador de documentos capaz de copiar qualquer assinatura do planeta."},
+ {id:"scar",   nome:"Scar Graynolt",       sexo:"Masculino",cabelo:"Ruivo",    hobby:"Paraquedismo", marca:"Cicatriz", veiculo:"Carro de corrida", cor:"#ff6b8b",
+  bio:"Piloto de fuga da gangue. Nunca foi alcançado numa perseguição."},
+ {id:"nick",   nome:"Nick Brunch",         sexo:"Masculino",cabelo:"Preto",    hobby:"Alpinismo",    marca:"Anel",     veiculo:"Moto",        cor:"#a3d86b",
+  bio:"Escalador que entra nos prédios pelo lado de fora, andar por andar."},
+ {id:"len",    nome:"Len Bulk",            sexo:"Masculino",cabelo:"Castanho", hobby:"Música",       marca:"Cicatriz", veiculo:"Conversível", cor:"#d9a066",
+  bio:"Grandalhão de coração mole. Cantarola óperas enquanto carrega o produto do roubo."},
+ {id:"eddie",  nome:"Fast Eddie B.",       sexo:"Masculino",cabelo:"Preto",    hobby:"Música",       marca:"Joias",    veiculo:"Carro de corrida", cor:"#9aa5ff",
+  bio:"Batedor de carteiras mais rápido do mundo. Toca saxofone nas horas vagas."}
+];
+
+/* Frases das testemunhas sobre o suspeito */
+const TRAIT_CLUE = {
+  cabelo:{"Preto":"Tinha cabelos pretos.","Castanho":"Tinha cabelos castanhos.","Loiro":"Tinha cabelos loiros.","Ruivo":"Tinha cabelos ruivos bem chamativos."},
+  hobby:{"Tênis":"Carregava uma raquete de tênis.","Alpinismo":"Comentou que adora escalar montanhas.","Croquet":"Não parava de falar sobre croquet.","Paraquedismo":"Contou que já saltou de paraquedas mais de cem vezes.","Música":"Estava cantarolando o tempo todo e falou de um show."},
+  marca:{"Anel":"Usava um anel enorme no dedo.","Tatuagem":"Reparei numa tatuagem no braço.","Cicatriz":"Tinha uma cicatriz no rosto.","Joias":"Estava cobert{o} de joias caríssimas."},
+  veiculo:{"Conversível":"Foi embora num conversível.","Limusine":"Chegou de limusine com motorista.","Moto":"Saiu acelerando uma moto.","Carro de corrida":"Estacionou um carro de corrida ali na frente."}
+};
+
+/* Cidades: pistas descrevem a cidade (usadas quando o suspeito está INDO para ela) */
+const CITIES = [
+ {id:"rio",nome:"Rio de Janeiro",pais:"Brasil",flag:"🇧🇷",lat:-22.9,lon:-43.2,
+  desc:"A Cidade Maravilhosa fica entre o mar e as montanhas. Do alto do Corcovado, o Cristo Redentor vigia as praias.",
+  tesouro:"o bondinho original do Pão de Açúcar",
+  pistas:["{Ele} queria saber como subir até o Cristo Redentor.","{Ele} trocou todo o dinheiro por reais.","{Ele} estava ensaiando passos de samba para o Carnaval.","{Ele} perguntou qual ônibus vai para Copacabana.","{Ele} disse que o próximo destino tem uma bandeira verde, amarela e azul.","{Ele} queria comprar ingresso para um jogo no Maracanã."]},
+ {id:"ba",nome:"Buenos Aires",pais:"Argentina",flag:"🇦🇷",lat:-34.6,lon:-58.4,
+  desc:"A capital argentina fica às margens do Rio da Prata. É famosa pelo tango e pela larguíssima Avenida 9 de Julho.",
+  tesouro:"o bandoneón do maior tangueiro da história",
+  pistas:["{Ele} trocou dinheiro por pesos argentinos.","{Ele} queria fazer aulas de tango.","{Ele} perguntou onde fica o Obelisco da Avenida 9 de Julho.","{Ele} falou de uma bandeira azul-clara e branca com um sol no meio.","{Ele} queria tirar uma foto na frente da Casa Rosada.","{Ele} estava com vontade de comer um bom asado."]},
+ {id:"lima",nome:"Lima",pais:"Peru",flag:"🇵🇪",lat:-12.05,lon:-77.04,
+  desc:"A capital peruana fica na costa do Pacífico e é a porta de entrada para as ruínas incas.",
+  tesouro:"a máscara de ouro de um antigo senhor andino",
+  pistas:["{Ele} trocou dinheiro por soles.","{Ele} queria visitar as ruínas de Machu Picchu.","{Ele} falou de uma bandeira com faixas verticais vermelha, branca e vermelha.","{Ele} estava doid{o} para provar um ceviche.","{Ele} lia um livro sobre o Império Inca.","{Ele} perguntou onde poderia ver lhamas e alpacas."]},
+ {id:"cdmx",nome:"Cidade do México",pais:"México",flag:"🇲🇽",lat:19.43,lon:-99.13,
+  desc:"Uma das maiores cidades do mundo, construída sobre Tenochtitlán, a antiga capital asteca.",
+  tesouro:"o grande calendário asteca de pedra",
+  pistas:["{Ele} trocou dinheiro por pesos mexicanos.","{Ele} queria subir as pirâmides de Teotihuacán.","{Ele} descreveu uma bandeira com uma águia devorando uma serpente.","{Ele} contratou uma banda de mariachis.","{Ele} perguntou sobre a antiga capital dos astecas.","{Ele} disse que ia comer tacos de verdade."]},
+ {id:"ny",nome:"Nova York",pais:"Estados Unidos",flag:"🇺🇸",lat:40.7,lon:-74.0,
+  desc:"A Big Apple: arranha-céus, musicais da Broadway e a Estátua da Liberdade na entrada do porto.",
+  tesouro:"a tocha da Estátua da Liberdade",
+  pistas:["{Ele} trocou dinheiro por dólares americanos.","{Ele} queria visitar a Estátua da Liberdade.","{Ele} comprou ingressos para um musical da Broadway.","{Ele} perguntou como chegar ao Central Park.","{Ele} falou de uma bandeira com cinquenta estrelas.","{Ele} disse que ia dar uma mordida na Big Apple."]},
+ {id:"montreal",nome:"Montreal",pais:"Canadá",flag:"🇨🇦",lat:45.5,lon:-73.6,
+  desc:"A maior cidade de Quebec fica numa ilha no Rio São Lourenço. Lá se fala francês do outro lado do Atlântico.",
+  tesouro:"o troféu original de hóquei mais famoso do mundo",
+  pistas:["{Ele} trocou dinheiro por dólares canadenses.","{Ele} falou de uma bandeira com uma folha de bordo vermelha.","{Ele} queria comprar xarope de bordo.","{Ele} treinava francês, mas disse que não ia para a Europa.","{Ele} queria assistir a um jogo de hóquei no gelo.","{Ele} perguntou sobre uma cidade numa ilha do Rio São Lourenço."]},
+ {id:"londres",nome:"Londres",pais:"Reino Unido",flag:"🇬🇧",lat:51.5,lon:-0.13,
+  desc:"A capital britânica é cortada pelo Rio Tâmisa. Tem o Big Ben e ônibus vermelhos de dois andares.",
+  tesouro:"uma coroa das joias guardadas na Torre de Londres",
+  pistas:["{Ele} trocou dinheiro por libras esterlinas.","{Ele} queria ouvir as badaladas do Big Ben.","{Ele} queria ver a troca da guarda no Palácio de Buckingham.","{Ele} desenhou a Union Jack num guardanapo.","{Ele} disse que não perde o chá das cinco.","{Ele} perguntou sobre passeios de barco pelo Tâmisa."]},
+ {id:"paris",nome:"Paris",pais:"França",flag:"🇫🇷",lat:48.86,lon:2.35,
+  desc:"A Cidade-Luz, às margens do Rio Sena, é lar da Torre Eiffel e do Museu do Louvre.",
+  tesouro:"a moldura dourada da Mona Lisa",
+  pistas:["{Ele} queria subir na Torre Eiffel.","{Ele} perguntou o horário do Museu do Louvre.","{Ele} falou de uma bandeira azul, branca e vermelha em faixas verticais.","{Ele} queria passear de barco pelo Sena.","{Ele} perguntou como chegar ao Arco do Triunfo.","{Ele} queria ver a chegada do Tour de France."]},
+ {id:"roma",nome:"Roma",pais:"Itália",flag:"🇮🇹",lat:41.9,lon:12.5,
+  desc:"A Cidade Eterna tem o Coliseu e a Fontana di Trevi. O Vaticano fica dentro dela.",
+  tesouro:"a moeda mais antiga da Fontana di Trevi",
+  pistas:["{Ele} queria visitar o Coliseu.","{Ele} disse que ia jogar uma moeda numa fonte famosa.","{Ele} falou de uma bandeira verde, branca e vermelha em faixas verticais.","{Ele} queria ver o Papa no Vaticano.","{Ele} lia um livro sobre gladiadores.","{Ele} estava aprendendo italiano para pedir massa fresca."]},
+ {id:"atenas",nome:"Atenas",pais:"Grécia",flag:"🇬🇷",lat:37.98,lon:23.73,
+  desc:"O berço da democracia fica aos pés da Acrópole, onde está o Partenon.",
+  tesouro:"uma coluna inteira do Partenon",
+  pistas:["{Ele} queria visitar o Partenon.","{Ele} lia sobre os deuses do Olimpo.","{Ele} falou de uma bandeira com listras azuis e brancas e uma cruz.","{Ele} perguntou onde aconteceram as primeiras Olimpíadas modernas.","{Ele} citava Sócrates e Platão o tempo todo.","{Ele} estava estudando o alfabeto grego."]},
+ {id:"moscou",nome:"Moscou",pais:"Rússia",flag:"🇷🇺",lat:55.75,lon:37.62,
+  desc:"Na capital russa ficam o Kremlin e as cúpulas coloridas da Catedral de São Basílio, na Praça Vermelha.",
+  tesouro:"um ovo Fabergé imperial",
+  pistas:["{Ele} trocou dinheiro por rublos.","{Ele} queria caminhar pela Praça Vermelha.","{Ele} falou de uma bandeira branca, azul e vermelha em faixas horizontais.","{Ele} comprou ingressos para o Balé Bolshoi.","{Ele} estava aprendendo o alfabeto cirílico.","{Ele} comprou um conjunto de matrioscas."]},
+ {id:"istambul",nome:"Istambul",pais:"Turquia",flag:"🇹🇷",lat:41.0,lon:28.98,
+  desc:"Uma cidade dividida entre a Europa e a Ásia pelo Estreito de Bósforo.",
+  tesouro:"o tapete mais valioso do Grande Bazar",
+  pistas:["{Ele} trocou dinheiro por liras turcas.","{Ele} queria atravessar o Estreito de Bósforo.","{Ele} perguntou sobre a Basílica de Santa Sofia.","{Ele} falou de uma bandeira vermelha com lua crescente e estrela brancas.","{Ele} queria fazer compras no Grande Bazar.","{Ele} chamava a cidade pelo nome antigo, Constantinopla."]},
+ {id:"cairo",nome:"Cairo",pais:"Egito",flag:"🇪🇬",lat:30.04,lon:31.24,
+  desc:"A maior cidade do mundo árabe fica às margens do Rio Nilo, pertinho das pirâmides de Gizé.",
+  tesouro:"a máscara funerária de um faraó",
+  pistas:["{Ele} trocou dinheiro por libras egípcias.","{Ele} queria ver as pirâmides de Gizé.","{Ele} perguntou sobre a Esfinge.","{Ele} queria fazer um cruzeiro pelo Rio Nilo.","{Ele} estava tentando decifrar hieróglifos.","{Ele} falou de uma bandeira vermelha, branca e preta com uma águia dourada."]},
+ {id:"nairobi",nome:"Nairóbi",pais:"Quênia",flag:"🇰🇪",lat:-1.29,lon:36.82,
+  desc:"A capital do Quênia tem um parque nacional com leões e girafas a poucos minutos do centro.",
+  tesouro:"o tambor cerimonial de um chefe massai",
+  pistas:["{Ele} trocou dinheiro por xelins quenianos.","{Ele} queria fazer um safári.","{Ele} perguntou sobre o povo massai.","{Ele} me cumprimentou com um “jambo”, em suaíli.","{Ele} falou de uma bandeira com um escudo e duas lanças.","{Ele} queria ver o Monte Quênia."]},
+ {id:"cabo",nome:"Cidade do Cabo",pais:"África do Sul",flag:"🇿🇦",lat:-33.92,lon:18.42,
+  desc:"Fica ao pé da Montanha da Mesa, perto do Cabo da Boa Esperança.",
+  tesouro:"o diamante mais brilhante do país",
+  pistas:["{Ele} trocou dinheiro por rands.","{Ele} queria subir a Montanha da Mesa.","{Ele} perguntou sobre o Cabo da Boa Esperança.","{Ele} queria ver pinguins numa praia africana.","{Ele} falou de uma bandeira com seis cores e um grande Y deitado.","{Ele} queria visitar a Ilha Robben, onde Nelson Mandela ficou preso."]},
+ {id:"dakar",nome:"Dakar",pais:"Senegal",flag:"🇸🇳",lat:14.7,lon:-17.44,
+  desc:"A capital do Senegal é o ponto mais a oeste do continente africano.",
+  tesouro:"a kora encantada de um griô",
+  pistas:["{Ele} trocou dinheiro por francos CFA.","{Ele} perguntou qual é o ponto mais ocidental da África.","{Ele} falava francês e algumas palavras em uolofe.","{Ele} queria visitar a Ilha de Gorée.","{Ele} falou de uma bandeira verde, amarela e vermelha com uma estrela verde.","{Ele} disse que ia ver a chegada de um famoso rali."]},
+ {id:"delhi",nome:"Nova Délhi",pais:"Índia",flag:"🇮🇳",lat:28.61,lon:77.21,
+  desc:"Na capital indiana ficam o Portão da Índia e o Forte Vermelho.",
+  tesouro:"a pedra preciosa do turbante de um marajá",
+  pistas:["{Ele} trocou dinheiro por rúpias indianas.","{Ele} queria fazer um bate-volta para ver o Taj Mahal.","{Ele} falou de uma bandeira laranja, branca e verde com uma roda azul.","{Ele} só falava de filmes de Bollywood.","{Ele} estava aprendendo hindi.","{Ele} queria visitar o Forte Vermelho."]},
+ {id:"pequim",nome:"Pequim",pais:"China",flag:"🇨🇳",lat:39.9,lon:116.4,
+  desc:"A capital chinesa abriga a Cidade Proibida, e trechos da Grande Muralha ficam bem perto.",
+  tesouro:"um guerreiro de terracota",
+  pistas:["{Ele} trocou dinheiro por yuans.","{Ele} queria caminhar pela Grande Muralha.","{Ele} perguntou sobre a Cidade Proibida.","{Ele} falou de uma bandeira vermelha com estrelas amarelas.","{Ele} queria provar o pato laqueado.","{Ele} estava estudando mandarim."]},
+ {id:"toquio",nome:"Tóquio",pais:"Japão",flag:"🇯🇵",lat:35.68,lon:139.69,
+  desc:"Uma megalópole onde templos antigos convivem com trens-bala e letreiros de neon.",
+  tesouro:"a espada de um lendário samurai",
+  pistas:["{Ele} trocou dinheiro por ienes.","{Ele} queria ver o Monte Fuji.","{Ele} falou de uma bandeira branca com um círculo vermelho.","{Ele} disse que ia comer sushi no mercado de peixe.","{Ele} queria andar de trem-bala.","{Ele} disse que ia para a Terra do Sol Nascente."]},
+ {id:"sydney",nome:"Sydney",pais:"Austrália",flag:"🇦🇺",lat:-33.87,lon:151.21,
+  desc:"A maior cidade australiana tem a famosa Ópera e uma enorme ponte sobre a baía.",
+  tesouro:"o bumerangue de ouro",
+  pistas:["{Ele} trocou dinheiro por dólares australianos.","{Ele} queria ver uma ópera num prédio com teto em forma de velas.","{Ele} queria fotografar cangurus e coalas.","{Ele} falou de uma bandeira com o Cruzeiro do Sul.","{Ele} queria surfar na praia de Bondi.","{Ele} perguntou sobre passeios pelo outback."]},
+ {id:"bangkok",nome:"Bangkok",pais:"Tailândia",flag:"🇹🇭",lat:13.75,lon:100.5,
+  desc:"A capital tailandesa é cheia de templos dourados e mercados flutuantes.",
+  tesouro:"o Buda de Esmeralda",
+  pistas:["{Ele} trocou dinheiro por bahts.","{Ele} queria fazer compras num mercado flutuante.","{Ele} estava treinando muay thai.","{Ele} falou de uma bandeira com listras vermelhas, brancas e uma azul larga.","{Ele} queria andar de tuk-tuk.","{Ele} chamava o país pelo nome antigo, Sião."]},
+ {id:"singapura",nome:"Singapura",pais:"Singapura",flag:"🇸🇬",lat:1.35,lon:103.82,
+  desc:"Uma cidade-Estado numa ilha ao sul da Península Malaia, muito limpa e moderna.",
+  tesouro:"a estátua dourada do Merlion",
+  pistas:["{Ele} trocou dinheiro por dólares de Singapura.","{Ele} queria ver o Merlion, metade leão e metade peixe.","{Ele} disse que ia para uma cidade que também é um país.","{Ele} falou de uma bandeira vermelha e branca com lua e cinco estrelas.","{Ele} reclamou que lá é proibido mascar chiclete.","{Ele} queria nadar na piscina do Marina Bay Sands."]},
+ {id:"reykjavik",nome:"Reykjavík",pais:"Islândia",flag:"🇮🇸",lat:64.15,lon:-21.94,
+  desc:"A capital mais ao norte do mundo, terra de vulcões, gêiseres e auroras boreais.",
+  tesouro:"o capacete de um antigo rei viking",
+  pistas:["{Ele} trocou dinheiro por coroas islandesas.","{Ele} queria ver um gêiser em erupção.","{Ele} queria fotografar a aurora boreal.","{Ele} perguntou sobre vulcões e geleiras.","{Ele} falou de uma bandeira azul com uma cruz vermelha contornada de branco.","{Ele} queria se banhar na Lagoa Azul."]},
+ {id:"oslo",nome:"Oslo",pais:"Noruega",flag:"🇳🇴",lat:59.91,lon:10.75,
+  desc:"A capital norueguesa fica no fundo de um fiorde e tem museus de navios vikings.",
+  tesouro:"um navio viking em miniatura feito de ouro",
+  pistas:["{Ele} trocou dinheiro por coroas norueguesas.","{Ele} queria navegar pelos fiordes.","{Ele} queria visitar um museu de navios vikings.","{Ele} falou de uma bandeira vermelha com uma cruz azul contornada de branco.","{Ele} perguntou onde é entregue o Prêmio Nobel da Paz.","{Ele} queria ver o sol da meia-noite."]},
+ {id:"lisboa",nome:"Lisboa",pais:"Portugal",flag:"🇵🇹",lat:38.72,lon:-9.14,
+  desc:"A capital portuguesa, às margens do Tejo, tem bondes amarelos e ruas onde se canta fado.",
+  tesouro:"o astrolábio de um grande navegador",
+  pistas:["{Ele} queria ouvir fado numa taberna.","{Ele} perguntou sobre a Torre de Belém.","{Ele} queria comer pastéis de nata.","{Ele} falou de uma bandeira verde e vermelha com uma esfera armilar.","{Ele} queria andar no bonde 28.","{Ele} lia sobre os navegadores que partiram do Rio Tejo."]},
+ {id:"madri",nome:"Madri",pais:"Espanha",flag:"🇪🇸",lat:40.42,lon:-3.7,
+  desc:"A capital espanhola é lar do Museu do Prado e de alguns dos maiores clubes de futebol do mundo.",
+  tesouro:"um quadro famoso do Museu do Prado",
+  pistas:["{Ele} queria visitar o Museu do Prado.","{Ele} estava aprendendo a dançar flamenco.","{Ele} falou de uma bandeira vermelha e amarela.","{Ele} queria comer tapas e paella.","{Ele} estava lendo Dom Quixote.","{Ele} queria ver um jogo no Santiago Bernabéu."]},
+ {id:"katmandu",nome:"Katmandu",pais:"Nepal",flag:"🇳🇵",lat:27.7,lon:85.32,
+  desc:"A capital nepalesa fica num vale do Himalaia. É a base de quem sonha escalar o Everest.",
+  tesouro:"a primeira bandeira fincada no topo do Everest",
+  pistas:["{Ele} trocou dinheiro por rúpias nepalesas.","{Ele} queria ver o Monte Everest.","{Ele} falou da única bandeira do mundo que não é retangular.","{Ele} queria contratar guias sherpas.","{Ele} perguntou sobre trilhas no Himalaia.","{Ele} queria ver templos pintados com os olhos de Buda."]},
+ {id:"santiago",nome:"Santiago",pais:"Chile",flag:"🇨🇱",lat:-33.45,lon:-70.67,
+  desc:"A capital chilena é cercada pela Cordilheira dos Andes.",
+  tesouro:"um moai da Ilha de Páscoa",
+  pistas:["{Ele} trocou dinheiro por pesos chilenos.","{Ele} queria esquiar na Cordilheira dos Andes.","{Ele} perguntou sobre as estátuas da Ilha de Páscoa.","{Ele} falou de uma bandeira com uma estrela branca num quadrado azul.","{Ele} disse que ia para um país muito comprido e estreito.","{Ele} queria ver as estrelas no Deserto do Atacama."]},
+ {id:"seul",nome:"Seul",pais:"Coreia do Sul",flag:"🇰🇷",lat:37.57,lon:126.98,
+  desc:"A capital sul-coreana mistura palácios antigos, tecnologia de ponta e K-pop.",
+  tesouro:"a coroa de ouro de um antigo reino",
+  pistas:["{Ele} trocou dinheiro por wons.","{Ele} queria ir a um show de K-pop.","{Ele} queria provar kimchi.","{Ele} falou de uma bandeira branca com um yin-yang e quatro trigramas.","{Ele} queria visitar o Palácio Gyeongbokgung.","{Ele} estava praticando taekwondo."]},
+ {id:"viena",nome:"Viena",pais:"Áustria",flag:"🇦🇹",lat:48.21,lon:16.37,
+  desc:"A capital da valsa e da música clássica fica às margens do Rio Danúbio.",
+  tesouro:"o violino de infância de Mozart",
+  pistas:["{Ele} estava aprendendo a dançar valsa.","{Ele} queria visitar a casa de Mozart.","{Ele} queria passear pelo Danúbio.","{Ele} falou de uma bandeira vermelha, branca e vermelha em faixas horizontais.","{Ele} comprou ingressos para a Ópera Estatal.","{Ele} queria provar a torta Sacher."]}
+];
+const CITY = Object.fromEntries(CITIES.map(c=>[c.id,c]));
+
+const PLACES = [
+ {id:"banco",nome:"Banco",ic:"🏦",quem:"Gerente do banco"},
+ {id:"biblioteca",nome:"Biblioteca",ic:"📚",quem:"Bibliotecária"},
+ {id:"aeroporto",nome:"Aeroporto",ic:"✈️",quem:"Funcionário do aeroporto"},
+ {id:"museu",nome:"Museu",ic:"🏛️",quem:"Guia do museu"},
+ {id:"porto",nome:"Porto",ic:"⚓",quem:"Marinheiro"},
+ {id:"hotel",nome:"Hotel",ic:"🏨",quem:"Recepcionista do hotel"},
+ {id:"mercado",nome:"Mercado",ic:"🧺",quem:"Vendedora do mercado"},
+ {id:"embaixada",nome:"Embaixada",ic:"🏢",quem:"Cônsul"},
+ {id:"cafe",nome:"Café",ic:"☕",quem:"Garçom"},
+ {id:"estacao",nome:"Estação de trem",ic:"🚆",quem:"Bilheteiro"}
+];
+const PLACE = Object.fromEntries(PLACES.map(p=>[p.id,p]));
+
+const WRONG_LINES = [
+ "Desculpe, não vi ninguém com essa descrição por aqui.",
+ "Hoje o movimento está fraco. Nada de suspeito.",
+ "Nunca vi essa pessoa na vida.",
+ "Ninguém estranho passou por aqui. Será que você não errou de cidade?",
+ "Sinto muito, detetive. Não posso ajudar.",
+ "Por aqui só passaram turistas comuns."
+];
+const NEAR_LINES = [
+ "Cuidado, detetive! Vi alguém muito suspeit{o} rondando por aqui há poucos minutos.",
+ "Fique atento! Dizem que {ele} está escondid{o} aqui mesmo, nesta cidade.",
+ "Detetive, você está muito perto. Tome cuidado!"
+];
+const ATTACKS = [
+ {t:"Uma faca passou zunindo a centímetros da sua cabeça!",h:0},
+ {t:"Um capanga da V.I.L.E. tentou te empurrar de uma escada! Você escapou por pouco.",h:0},
+ {t:"Você foi atingido por um dardo tranquilizante e apagou por 2 horas.",h:2},
+ {t:"Uma caixa enorme despencou de um guindaste bem ao seu lado!",h:0},
+ {t:"Um carro preto tentou te fechar no trânsito. Você perdeu 1 hora até se recuperar.",h:1}
+];
+
+const RANKS = [
+ {nome:"Detetive Novato",min:0,rota:4},
+ {nome:"Detetive",min:2,rota:5},
+ {nome:"Investigador",min:4,rota:5},
+ {nome:"Inspetor",min:6,rota:6},
+ {nome:"Detetive Ás",min:8,rota:7},
+ {nome:"Superdetetive",min:10,rota:8}
+];
+const DAYS = ["Segunda","Terça","Quarta","Quinta","Sexta","Sábado","Domingo"];
+const START_T = 9, DEADLINE_T = 6*24+17; // segunda 9h → domingo 17h
+
+/* =========================================================
+   UTILITÁRIOS
+   ========================================================= */
+const $ = s=>document.querySelector(s);
+const rnd = n=>Math.floor(Math.random()*n);
+const pick = a=>a[rnd(a.length)];
+const shuffle = a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;};
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function g(text, sexo){ // concordância de gênero
+  const f = sexo==="Feminino";
+  return text.replace(/\{Ele\}/g,f?"Ela":"Ele").replace(/\{ele\}/g,f?"ela":"ele")
+             .replace(/\{o\}/g,f?"a":"o").replace(/\{a\}/g,f?"a":"");
+}
+function fmtTime(t){const d=Math.floor(t/24),h=t%24;return `${DAYS[Math.min(d,6)]}, ${String(h).padStart(2,"0")}:00`;}
+function distKm(a,b){const R=6371,r=x=>x*Math.PI/180;const dl=r(b.lat-a.lat),dn=r(b.lon-a.lon);
+  const h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+function travelHours(a,b){return Math.min(9,Math.max(2,Math.round(distKm(CITY[a],CITY[b])/1500)+1));}
+function rankOf(solved){let r=RANKS[0];for(const k of RANKS) if(solved>=k.min) r=k;return r;}
+function rankIndex(solved){let i=0;RANKS.forEach((k,j)=>{if(solved>=k.min)i=j;});return i;}
+
+/* Som discreto (WebAudio) */
+let AC=null;
+function beep(f=660,d=0.06,type="sine",vol=0.05){
+  if(!S.player||!S.player.som) return;
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(),gn=AC.createGain();o.type=type;o.frequency.value=f;gn.gain.value=vol;
+    o.connect(gn);gn.connect(AC.destination);o.start();gn.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+d);o.stop(AC.currentTime+d+0.02);}catch(e){}
+}
+const sfx={
+  click:()=>beep(520,.05),
+  plane:()=>{beep(300,.25,"triangle",.04);setTimeout(()=>beep(450,.25,"triangle",.04),120);},
+  danger:()=>{beep(180,.25,"sawtooth",.05);setTimeout(()=>beep(140,.3,"sawtooth",.05),180);},
+  win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.18,"square",.04),i*130)),
+  lose:()=>[400,330,260].forEach((f,i)=>setTimeout(()=>beep(f,.25,"triangle",.05),i*180))
+};
+
+/* =========================================================
+   ESTADO + SALVAMENTO
+   ========================================================= */
+const KEY="carmen_ptbr_v1";
+let S={player:null,caso:null,tab:"cidade",msg:null};
+function exportCode(){const j=JSON.stringify({v:1,player:S.player,caso:S.caso});return "CSB1-"+btoa(unescape(encodeURIComponent(j)));}
+function importCode(code){
+  try{code=String(code).trim().replace(/\s+/g,"");if(code.startsWith("CSB1-"))code=code.slice(5);
+    const d=JSON.parse(decodeURIComponent(escape(atob(code))));
+    if(!d||!d.player||typeof d.player.solved!=="number"||!d.player.nome) return false;
+    S.player=d.player;S.caso=d.caso||null;S.msg=null;S.sel=null;S.dossieMsg=null;S.tab="cidade";S.showTravel=false;save();return true;}catch(e){return false;}
+}
+function saveBox(){
+  return `<div class="card"><h2>💾 Salvar progresso</h2>
+    <p class="mute" style="margin-bottom:10px">Copie este código e guarde onde quiser (Notas, e-mail, Obsidian). Para continuar depois, cole o código em “Carregar progresso”.</p>
+    <textarea id="codeOut" readonly rows="3" style="width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--mut);border-radius:10px;padding:10px;font:12px ui-monospace,monospace;resize:none">${exportCode()}</textarea>
+    <div style="height:8px"></div><button class="btn primary wide" id="copyCode"><span class="ic">📋</span><span>Copiar código</span></button>
+    <div id="copyMsg" class="mute center" style="margin-top:6px"></div></div>`;
+}
+function loadBox(){
+  return `<div class="card"><h2>📥 Carregar progresso</h2>
+    <textarea id="codeIn" rows="3" placeholder="Cole aqui seu código de salvamento (começa com CSB1-)" style="width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px;font:12px ui-monospace,monospace;resize:none"></textarea>
+    <div style="height:8px"></div><button class="btn wide" id="loadCode"><span class="ic">📥</span><span>Carregar</span></button>
+    <div id="loadMsg" class="center" style="margin-top:6px;color:var(--red2)"></div></div>`;
+}
+function bindSaveLoad(){
+  const cp=$("#copyCode");if(cp)cp.onclick=async()=>{const ta=$("#codeOut");
+    try{await navigator.clipboard.writeText(ta.value);$("#copyMsg").textContent="Código copiado!";}
+    catch(e){ta.focus();ta.select();$("#copyMsg").textContent="Texto selecionado. Copie com Ctrl+C (ou toque e segure).";}};
+  const ld=$("#loadCode");if(ld)ld.onclick=()=>{const ok=importCode($("#codeIn").value);
+    if(ok){sfx.win();render();window.scrollTo(0,0);}else $("#loadMsg").textContent="Código inválido. Confira se copiou ele inteiro.";};
+}
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify({player:S.player,caso:S.caso,updatedAt:S.updatedAt||0}));}catch(e){}}
+function save(){S.updatedAt=Date.now();saveLocal();if(typeof scheduleCloud==="function")scheduleCloud();}
+function load(){try{const d=JSON.parse(localStorage.getItem(KEY)||"null");if(d){S.player=d.player;S.caso=d.caso;S.updatedAt=d.updatedAt||0;}}catch(e){}}
+
+/* =========================================================
+   GERAÇÃO DO CASO
+   ========================================================= */
+function uniqueWith(sus, keys){
+  return GANG.filter(o=>keys.every(k=>o[k]===sus[k])).length===1;
+}
+function newCase(){
+  const p=S.player, ri=rankIndex(p.solved), rank=RANKS[ri];
+  let suspect;
+  const carmenTime = ri===RANKS.length-1 && (!p.carmenPresa || Math.random()<0.2);
+  if(carmenTime) suspect=GANG[0];
+  else suspect=pick(GANG.slice(1));
+  const L=rank.rota;
+  const route=shuffle(CITIES.map(c=>c.id)).slice(0,L);
+  // Planejamento de pistas sobre o suspeito (garantindo identificação única)
+  const others=["cabelo","hobby","marca","veiculo"];
+  const slots=Math.min(4,L-1);
+  let plan=null;
+  for(let tries=0;tries<50;tries++){
+    const perm=shuffle(others).slice(0,slots);
+    if(uniqueWith(suspect,["sexo",...perm])){plan=perm;break;}
+  }
+  if(!plan) plan=others.slice(0,slots);
+  const traitAt={}; // índice da cidade na rota → traço revelado
+  const idxs=shuffle([...Array(L-1).keys()]).slice(0,plan.length);
+  idxs.forEach((ci,k)=>traitAt[ci]=plan[k]);
+
+  S.caso={
+    suspect:suspect.id, route, traitAt,
+    loot:CITY[route[0]].tesouro,
+    cur:route[0], lastGood:0, t:START_T,
+    warrant:null, visits:{}, cityData:{}, options:{},
+    notes:[], known:{sexo:suspect.sexo}, trail:[route[0]],
+    status:"briefing", carmen: suspect.id==="carmen"
+  };
+  S.tab="cidade"; S.msg=null;
+  save();
+}
+
+/* Dados de cada cidade (locais e falas) — gerados uma vez por caso */
+function cityData(id){
+  const C=S.caso;
+  if(C.cityData[id]) return C.cityData[id];
+  const ri=C.route.indexOf(id), sus=GANG.find(x=>x.id===C.suspect);
+  const places=shuffle(PLACES.map(p=>p.id)).slice(0,3);
+  let locs;
+  if(ri===-1){
+    locs=places.map(pl=>({pl,type:"wrong",text:pick(WRONG_LINES)}));
+  } else if(ri===C.route.length-1){
+    const hide=rnd(3), atk=(hide+1+rnd(2))%3;
+    locs=places.map((pl,i)=>i===hide?{pl,type:"capture"}:
+      {pl,type:"near",text:g(pick(NEAR_LINES),sus.sexo),attack:i===atk?rnd(ATTACKS.length):null});
+  } else {
+    const next=CITY[C.route[ri+1]];
+    const clues=shuffle(next.pistas).slice(0,3);
+    const tr=C.traitAt[ri]; const trLoc=rnd(3);
+    const atk = ri>0 && Math.random()<0.4 ? rnd(3) : -1;
+    locs=places.map((pl,i)=>({pl,type:"clue",text:g(clues[i],sus.sexo),
+      trait: i===trLoc&&tr ? tr : null,
+      traitText: i===trLoc&&tr ? g(TRAIT_CLUE[tr][sus[tr]],sus.sexo) : null,
+      attack: i===atk ? rnd(ATTACKS.length) : null}));
+  }
+  C.cityData[id]={locs,seen:[]};
+  return C.cityData[id];
+}
+
+/* Destinos de viagem — fixos por cidade dentro do caso */
+function travelOptions(id){
+  const C=S.caso;
+  if(C.options[id]) return C.options[id];
+  const ri=C.route.indexOf(id);
+  const must=[];
+  if(ri===-1) must.push(C.route[C.lastGood]);
+  else{
+    if(ri<C.route.length-1) must.push(C.route[ri+1]);
+    if(ri>0) must.push(C.route[ri-1]);
+  }
+  const pool=shuffle(CITIES.map(c=>c.id).filter(x=>x!==id && !C.route.includes(x)));
+  const opts=must.slice();
+  while(opts.length<4) opts.push(pool.pop());
+  C.options[id]=shuffle(opts);
+  return C.options[id];
+}
+
+/* =========================================================
+   TEMPO
+   ========================================================= */
+function spend(h){
+  const C=S.caso; let slept=false;
+  C.t+=h;
+  const hr=C.t%24;
+  if(hr>=23||hr<7){
+    const day=Math.floor(C.t/24);
+    C.t = hr>=23 ? (day+1)*24+7 : day*24+7;
+    slept=true;
+  }
+  if(C.t>DEADLINE_T){C.t=DEADLINE_T;endCase("tempo");return {slept,over:true};}
+  return {slept,over:false};
+}
+
+/* =========================================================
+   MOTOR DE ANIMAÇÃO 8-BIT
+   ========================================================= */
+const FW=160;
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function hashStr(s){let h=2166136261;for(const ch of s){h^=ch.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
+function R(c,x,y,w,h,col){c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));}
+function TRI(c,cx,top,base,hw,col){const n=base-top;for(let i=0;i<=n;i++){const w=Math.round(hw*i/n);R(c,cx-w,top+i,w*2+1,1,col);}}
+function CIRC(c,cx,cy,r,col,upper){for(let dy=-r;dy<=(upper?0:r);dy++){const w=Math.round(Math.sqrt(r*r-dy*dy));R(c,cx-w,cy+dy,w*2+1,1,col);}}
+function SPR(c,rows,pal,x,y,flip){for(let j=0;j<rows.length;j++){const row=rows[j];for(let i=0;i<row.length;i++){const ch=row[flip?row.length-1-i:i];if(ch!=="."&&pal[ch]) R(c,x+i,y+j,1,1,pal[ch]);}}}
+
+/* Sprites originais */
+const DET_TOP=["...hhhh...","..hhhhhh..","hhhhhhhhhh","...ssss...","...sksk...","...ssss...","..cccccc..",".cccbcccc.",".ccccbccc.",".sccccccs.","..cccccc..","..cccccc.."];
+const DET_A=DET_TOP.concat(["..pp..pp..",".pp....pp.",".kk....kk."]);
+const DET_B=DET_TOP.concat(["...pppp...","...pppp...","...kkkk..."]);
+const DET_PAL={h:"#5a3b24",s:"#f2c4a0",k:"#1a1c2c",c:"#c9a46b",b:"#8a6b3e",p:"#2b3550"};
+const SUS_PAL={h:"#111318",s:"#2a2d36",k:"#e0393e",c:"#1b1e26",b:"#2a2d36",p:"#14161c"};
+const SUS_CUFF={h:"#3a3d46",s:"#555",k:"#888",c:"#4a4d56",b:"#5a5d66",p:"#33363e"};
+const PLANE=["...........w..........","k..........ww.........","kk.........www........","kkwwwwwwwwwwwwwwwwww..","kwwwbwbwbwbwbwbwwwwwwr",".wwwwwwwwwwwwwwwwwwww.",".......wwwww..........","......www.............","....................."];
+const PLANE_PAL={k:"#e0393e",w:"#f4f4f4",b:"#29adff",r:"#ffcd3c"};
+const CAR=["......rrbb..............","....kkkkkkkkkkk.........","...kwwbbwwkbbwwk........","..kwwwwwwwwwwwwwwwwwwk..","kwwwwwwwwwwwwwwwwwwwwwwk","kwwwPOLICIAwwwwwwwwwwwyk","kkkkkkkkkkkkkkkkkkkkkkkk","...kgk..........kgk.....","....k............k......"];
+const CAR_PAL={k:"#1a1c2c",w:"#f4f4f4",b:"#29adff",r:"#ff004d",y:"#ffcd3c",g:"#888",P:"#1d2b53",O:"#1d2b53",L:"#1d2b53",I:"#1d2b53",C:"#1d2b53",A:"#1d2b53"};
+const KNIFE=["kkwwwwww","kk.wwww."];
+const KNIFE_PAL={k:"#5a3b24",w:"#d8dde6"};
+const ZZ=["zzzz","..z.",".z..","zzzz"];
+
+/* Céu por horário */
+function skyPhase(h){if(h>=19||h<6)return"noite";if(h>=17||h<7)return"tarde";return"dia";}
+const SKY={dia:["#29adff","#45b8ff","#62c4ff","#82d1ff","#a6defc","#c7ecff"],
+  tarde:["#2b1d4d","#5a2d6b","#a3416b","#e0634f","#f39a4a","#ffcd75"],
+  noite:["#070b18","#0b1124","#0f1730","#141d3b","#1a2447","#202b52"]};
+function drawSky(c,h,t,H,seed){
+  const ph=skyPhase(h), b=SKY[ph], bh=Math.ceil(H/b.length);
+  b.forEach((col,i)=>{R(c,0,i*bh,FW,bh,col); if(i>0) for(let x=(i%2);x<FW;x+=2) R(c,x,i*bh,1,1,b[i-1]);});
+  if(ph==="noite"){
+    const rng=mulberry(seed||7);
+    for(let i=0;i<40;i++){const x=rng()*FW|0,y=rng()*H*0.6|0,tw=Math.sin(t*3+i*1.7);R(c,x,y,1,1,tw>0.6?"#ffffff":"#7b86a8");}
+    CIRC(c,132,13,6,"#f4f1d0");CIRC(c,135,11,5,b[0]);
+  } else {
+    if(ph==="dia") CIRC(c,22,14,7,"#fff1a8"); else CIRC(c,26,H*0.55,9,"#ffd27a");
+    const cc=ph==="dia"?"#ffffff":"#ffc7a6";
+    for(let i=0;i<3;i++){const x=((i*70+t*(4+i*2))%(FW+40))-30, y=8+i*9; cloud(c,x,y,cc);}
+  }
+  return ph;
+}
+function cloud(c,x,y,col){R(c,x,y+3,24,4,col);R(c,x+4,y,11,4,col);R(c,x+13,y+1,8,3,col);}
+
+/* Prédios da cidade (gerados uma vez por cidade) */
+const SKY_CACHE={};
+function cityBlocks(id){
+  if(SKY_CACHE[id]) return SKY_CACHE[id];
+  const rng=mulberry(hashStr(id)), hue=Math.floor(rng()*360), bl=[];
+  let x=-6;
+  while(x<FW+20){const w=6+Math.floor(rng()*9),h=7+Math.floor(rng()*17),wins=[];
+    for(let yy=3;yy<h-2;yy+=3) for(let xx=2;xx<w-1;xx+=3) wins.push([xx,yy,rng()]);
+    bl.push({x,w,h,l:22+Math.floor(rng()*14),wins}); x+=w+(rng()<0.3?1:0);}
+  return SKY_CACHE[id]={hue,bl};
+}
+const LANDMARKS={rio:["cristo"],ba:["obelisco"],lima:["montanha"],cdmx:["piramide"],ny:["arranha","estatua"],montreal:["arranha"],
+  londres:["relogio"],paris:["eiffel"],roma:["coliseu"],atenas:["templo"],moscou:["cebola"],istambul:["minarete"],cairo:["piramide"],
+  nairobi:["acacia"],cabo:["mesa"],dakar:["farol"],delhi:["portao"],pequim:["pagode"],toquio:["fuji","pagode"],sydney:["opera"],
+  bangkok:["stupa"],singapura:["arranha"],reykjavik:["igreja"],oslo:["montanha"],lisboa:["portao","farol"],madri:["cupula"],
+  katmandu:["montanha","stupa"],santiago:["montanha"],seul:["torretv"],viena:["cupula"]};
+const BACK_LM=new Set(["montanha","fuji","mesa","cristo"]);
+
+const LM={
+  eiffel(c,x,gy,n,t){const col=n?"#6b5a48":"#6b5236";
+    for(let i=0;i<46;i++){const y=gy-46+i,k=i/46,hw=Math.round(1+k*k*13);
+      R(c,x-hw,y,2,1,col);R(c,x+hw-1,y,2,1,col);
+      if(i>4&&i%4===0) for(let q=-hw;q<=hw;q+=2) R(c,x+q,y,1,1,col);
+      if(i===18||i===32) R(c,x-hw-1,y,hw*2+3,2,col);
+      if(n&&Math.sin(t*9+i*2.1)>0.85) R(c,x+(i%2?hw:-hw),y,1,1,"#ffe066");}
+    R(c,x,gy-50,1,4,col);},
+  piramide(c,x,gy){TRI(c,x,gy-24,gy,30,"#e0b064");for(let i=0;i<=24;i++){const w=Math.round(30*i/24);R(c,x,gy-24+i,w,1,"#b8864a");}
+    TRI(c,x+34,gy-15,gy,18,"#d9a95f");for(let i=0;i<=15;i++){R(c,x+34,gy-15+i,Math.round(18*i/15),1,"#a8783e");}},
+  cristo(c,x,gy){TRI(c,x,gy-24,gy,46,"#2f6b3a");TRI(c,x,gy-24,gy-10,14,"#3c7f46");
+    R(c,x,gy-37,2,13,"#eeeeee");R(c,x-6,gy-34,14,2,"#eeeeee");R(c,x,gy-39,2,2,"#eeeeee");},
+  obelisco(c,x,gy){R(c,x-2,gy-34,5,34,"#ece6d4");TRI(c,x,gy-38,gy-34,2,"#ece6d4");R(c,x+1,gy-34,2,34,"#cfc6b0");},
+  montanha(c,x,gy){TRI(c,x-34,gy-28,gy,40,"#6c7d9c");TRI(c,x,gy-42,gy,52,"#55688a");TRI(c,x,gy-42,gy-31,10,"#f4f6fa");TRI(c,x-34,gy-28,gy-22,6,"#f4f6fa");},
+  fuji(c,x,gy){TRI(c,x,gy-34,gy,58,"#4d5f8a");TRI(c,x,gy-34,gy-25,12,"#ffffff");R(c,x-3,gy-34,7,1,"#ffffff");},
+  estatua(c,x,gy,n,t){R(c,x-6,gy-14,13,14,"#8b7d6b");R(c,x-3,gy-28,7,14,"#5fae94");R(c,x-1,gy-32,3,4,"#5fae94");
+    R(c,x-2,gy-34,5,2,"#5fae94");R(c,x+3,gy-39,2,11,"#5fae94");R(c,x+2,gy-42,4,3,Math.sin(t*12)>0?"#ffcd3c":"#ff8c3a");},
+  relogio(c,x,gy,n){R(c,x+4,gy-14,32,14,"#a88a55");for(let i=0;i<8;i++)R(c,x+6+i*4,gy-10,2,5,"#6b5636");
+    R(c,x-4,gy-40,9,40,"#b8935a");CIRC(c,x,gy-32,3,n?"#ffe9a0":"#f4eec8");R(c,x,gy-34,1,2,"#1a1c2c");R(c,x,gy-32,2,1,"#1a1c2c");
+    TRI(c,x,gy-50,gy-40,5,"#4f6b4a");},
+  coliseu(c,x,gy){R(c,x-24,gy-20,48,20,"#c9a26b");R(c,x+12,gy-20,12,5,"rgba(0,0,0,0)");
+    for(let r=0;r<3;r++)for(let k=0;k<9;k++)R(c,x-22+k*5,gy-18+r*6,2,4,"#6b4a2a");R(c,x-24,gy-21,36,1,"#e0bd86");},
+  templo(c,x,gy){TRI(c,x,gy-12,gy,44,"#8a7a5a");const b=gy-12;R(c,x-20,b-3,40,3,"#ddd5c0");
+    for(let i=0;i<7;i++)R(c,x-18+i*6,b-17,2,14,"#f0eadb");R(c,x-21,b-20,42,3,"#ddd5c0");TRI(c,x,b-27,b-20,21,"#ddd5c0");},
+  cebola(c,x,gy){[[-14,22,"#3cb371"],[0,32,"#ffcd3c"],[14,24,"#4a7bd0"],[24,16,"#e0393e"]].forEach(([dx,h,col])=>{
+    R(c,x+dx-3,gy-h,7,h,"#c84a3a");for(let i=0;i<h;i+=4)R(c,x+dx-3,gy-h+i,7,1,"#e8d6b0");
+    CIRC(c,x+dx,gy-h-3,4,col);TRI(c,x+dx,gy-h-11,gy-h-6,1,col);});},
+  minarete(c,x,gy){CIRC(c,x,gy-14,12,"#a9b4c6",true);R(c,x-16,gy-14,32,14,"#c9b28a");CIRC(c,x-10,gy-14,4,"#a9b4c6",true);CIRC(c,x+10,gy-14,4,"#a9b4c6",true);
+    [-22,20].forEach(dx=>{R(c,x+dx,gy-38,3,38,"#d9c6a0");TRI(c,x+dx+1,gy-44,gy-38,1,"#8f9ab0");R(c,x+dx-1,gy-28,5,1,"#a88a55");});},
+  acacia(c,x,gy){R(c,x,gy-16,2,16,"#5a3a22");R(c,x-3,gy-18,3,2,"#5a3a22");R(c,x-15,gy-21,32,4,"#4c7a2a");R(c,x-10,gy-24,22,3,"#5f8f34");
+    R(c,x+24,gy-14,2,14,"#d9a440");R(c,x+24,gy-16,6,3,"#d9a440");R(c,x+20,gy-8,8,5,"#d9a440");R(c,x+20,gy-3,1,3,"#a87830");R(c,x+27,gy-3,1,3,"#a87830");},
+  mesa(c,x,gy,n){for(let y=0;y<=22;y++){const hw=Math.round(26+(y/22)*22);R(c,x-hw,gy-22+y,hw*2,1,y<3?"#7d8ca0":"#66778d");}
+    if(!n){R(c,x-24,gy-24,48,2,"#ffffff");R(c,x-18,gy-26,30,2,"#ffffff");}},
+  farol(c,x,gy,n,t){for(let i=0;i<8;i++)R(c,x-3,gy-32+i*4,6,4,i%2?"#e84a4a":"#f4f4f4");R(c,x-2,gy-36,4,4,"#ffe066");TRI(c,x,gy-41,gy-36,3,"#333344");
+    if(n){const a=t*1.8;for(let r=4;r<60;r++){const px=x+Math.cos(a)*r,py=gy-34+Math.sin(a)*r*0.25;R(c,px,py,1,1,"rgba(255,230,120,0.5)");}}},
+  portao(c,x,gy){R(c,x-14,gy-30,28,30,"#c27c4e");R(c,x-7,gy-22,14,22,"#3b2a22");CIRC(c,x,gy-22,7,"#3b2a22",true);R(c,x-16,gy-33,32,3,"#a8603a");R(c,x-12,gy-36,24,3,"#c27c4e");},
+  pagode(c,x,gy){for(let i=0;i<5;i++){const w=28-i*5,y=gy-7-i*7;R(c,x-w/2+3,y,w-6,6,"#b0413e");R(c,x-w/2-1,y-1,w+2,2,"#2d2d3a");R(c,x-w/2-2,y-2,1,1,"#2d2d3a");R(c,x+w/2+1,y-2,1,1,"#2d2d3a");}
+    R(c,x,gy-46,1,6,"#ffcd3c");},
+  opera(c,x,gy){R(c,x-28,gy-6,56,6,"#d9c9a8");[[-20,16],[-8,20],[4,18],[14,13]].forEach(([dx,h])=>{for(let y=0;y<h;y++){const w=Math.round(y*0.8)+1;R(c,x+dx,gy-6-h+y,w,1,"#f4f4f4");R(c,x+dx,gy-6-h+y,1,1,"#c7ccd6");}});},
+  stupa(c,x,gy){R(c,x-15,gy-6,30,6,"#e8d9a0");CIRC(c,x,gy-6,10,"#f2d36b",true);R(c,x-3,gy-19,6,3,"#e8c35a");TRI(c,x,gy-38,gy-19,3,"#ffcd3c");
+    R(c,x-2,gy-12,1,1,"#1a1c2c");R(c,x+2,gy-12,1,1,"#1a1c2c");},
+  arranha(c,x,gy,n,t){[[-12,40],[-2,52],[9,46]].forEach(([dx,h],k)=>{R(c,x+dx-4,gy-h,9,h,"#7c9cc8");R(c,x+dx+2,gy-h,3,h,"#5f7fae");
+    for(let y=gy-h+3;y<gy-2;y+=3)for(let q=-3;q<4;q+=2)R(c,x+dx+q,y,1,1,n&&Math.sin(q*3+y+k)>0?"#ffe066":"#a9c3e6");R(c,x+dx,gy-h-6,1,6,"#cfd4da");
+    if(n&&Math.sin(t*4+k)>0)R(c,x+dx,gy-h-7,1,1,"#ff004d");});},
+  igreja(c,x,gy,n,t){if(n)for(let xx=0;xx<FW;xx++){const y=12+Math.sin(xx/11+t)*4;R(c,xx,y,1,7,"rgba(80,255,170,0.28)");}
+    for(let i=4;i>=1;i--){R(c,x-3-i*3,gy-40+i*7,3,40-i*7,"#bfc5cc");R(c,x+3+(i-1)*3,gy-40+i*7,3,40-i*7,"#bfc5cc");}
+    R(c,x-3,gy-40,6,40,"#d8dde2");TRI(c,x,gy-50,gy-40,3,"#d8dde2");R(c,x-1,gy-30,2,3,"#3b4a5a");},
+  torretv(c,x,gy){TRI(c,x,gy-10,gy,30,"#2f6b3a");R(c,x,gy-48,2,38,"#d8dde2");CIRC(c,x+1,gy-38,4,"#eef2f6");R(c,x-3,gy-38,9,1,"#7c9cc8");R(c,x,gy-54,1,6,"#cfd4da");},
+  cupula(c,x,gy){R(c,x-20,gy-16,40,16,"#d8c8a8");for(let i=0;i<9;i++)R(c,x-18+i*4,gy-13,2,9,"#b8a684");
+    CIRC(c,x,gy-16,9,"#6fa38a",true);R(c,x,gy-29,1,4,"#ffcd3c");R(c,x-22,gy-17,44,1,"#c4b28e");}
+};
+function drawCity(c,id,h,t,gy,opt={}){
+  const ph=skyPhase(h), n=ph==="noite", cb=cityBlocks(id), lms=LANDMARKS[id]||[];
+  const pos=lms.length>1?[58,116]:[108];
+  lms.forEach((l,i)=>{if(BACK_LM.has(l)) LM[l](c,pos[i],gy,n,t);});
+  cb.bl.forEach(b=>{const L=n?b.l-12:b.l+8;R(c,b.x,gy-b.h,b.w,b.h,`hsl(${cb.hue},22%,${L}%)`);
+    b.wins.forEach(([wx,wy,r])=>{let lit=n&&r<(opt.lightsOff!=null?0.45*(1-opt.lightsOff):0.45);
+      R(c,b.x+wx,gy-b.h+wy,1,1,lit?"#ffe066":(n?`hsl(${cb.hue},20%,${L-6}%)`:`hsl(${cb.hue},25%,${L+14}%)`));});});
+  lms.forEach((l,i)=>{if(!BACK_LM.has(l)) LM[l](c,pos[i],gy,n,t);});
+  R(c,0,gy,FW,40,n?"#1c1f2a":"#3a3f4d");R(c,0,gy,FW,1,n?"#2c3040":"#565c6e");
+  for(let x=((-t*0)%12);x<FW;x+=12)R(c,x,gy+5,6,1,n?"#2a2e3c":"#4a5060");
+}
+
+/* Banner vivo da cidade */
+let bannerLast=0;
+function bannerLoop(now){
+  requestAnimationFrame(bannerLoop);
+  if(now-bannerLast<60) return; bannerLast=now;
+  const t=now/1000;
+  document.querySelectorAll("canvas[data-banner]").forEach(cv=>{
+    const c=cv.getContext("2d"), id=cv.dataset.banner, h=+cv.dataset.hour, H=cv.height;
+    drawSky(c,h,t,H,hashStr(id));drawCity(c,id,h,t,H-8);
+    if(cv.dataset.alarm){const on=Math.floor(t*3)%2;R(c,0,0,FW,H,on?"rgba(255,0,77,0.18)":"rgba(41,173,255,0.10)");
+      R(c,74,4,12,4,on?"#ff004d":"#29adff");}
+  });
+}
+requestAnimationFrame(bannerLoop);
+
+/* Reprodutor de cenas */
+let FXT=null;
+function fxFlash(kind){const fx=$("#fx");fx.classList.remove("flash","shake");void fx.offsetWidth;fx.classList.add(kind);}
+function playScene(sc){return new Promise(res=>{
+  const fx=$("#fx"),cv=$("#fxc"),c=cv.getContext("2d");
+  cv.height=90;
+  $("#fxcap").innerHTML=sc.cap||"";
+  const sg=$("#fxsign");sg.textContent=sc.sign||"";sg.style.display=sc.sign?"":"none";
+  const bar=$("#fxbar i");bar.style.transition="none";bar.style.width="0%";void bar.offsetWidth;
+  bar.style.transition=`width ${sc.dur}s linear`;bar.style.width="100%";
+  fx.classList.remove("hide");
+  const fired=new Set();let start=null,done=false;
+  const api={once(k,fn){if(!fired.has(k)){fired.add(k);fn();}},cap(h){$("#fxcap").innerHTML=h;}};
+  const finish=()=>{if(done)return;done=true;fx.onclick=null;res();};
+  fx.onclick=finish;
+  (function frame(now){if(done)return;if(start===null)start=now;const t=(now-start)/1000;
+    if(t>=sc.dur){sc.draw(c,sc.dur,api);setTimeout(finish,sc.hold||250);return;}
+    sc.draw(c,t,api);requestAnimationFrame(frame);})(performance.now());
+});}
+async function playAll(list){
+  BUSY=true;
+  try{for(const f of list) await playScene(f());}finally{$("#fx").classList.add("hide");BUSY=false;}
+}
+
+/* --- Cenas --- */
+function sceneTravel(from,to,hours,hour){
+  return {dur:3.4,cap:`<span class="pix">${esc(CITY[from].nome)}</span> <span class="plane">✈</span> <span class="pix">${esc(CITY[to].nome)}</span><div class="sub">${hours}h de voo</div>`,
+  draw(c,t,api){
+    api.once("s",()=>sfx.plane());
+    drawSky(c,hour,t,90,hashStr(to));
+    let px,py;
+    if(t<1.1){const k=t/1.1;c.save();c.translate(Math.round(-k*90),Math.round(k*k*50));drawCity(c,from,hour,t,82);c.restore();
+      px=10+k*55;py=72-k*k*44;}
+    else if(t<2.3){px=65;py=28+Math.sin(t*5)*2;}
+    else{const k=Math.min(1,(t-2.3)/1.1);c.save();c.translate(Math.round((1-k)*90),Math.round((1-k)*(1-k)*50));drawCity(c,to,hour,t,82);c.restore();
+      px=65+k*50;py=28+k*k*44;}
+    if(t>0.6&&t<2.6){for(let i=0;i<4;i++){const cx=((i*53-t*160)%200+200)%200-20;cloud(c,cx,12+i*14,"rgba(255,255,255,0.75)");}
+      for(let i=0;i<3;i++)R(c,px-6-((t*90+i*9)%14),py+3+i*2,5,1,"rgba(255,255,255,0.7)");}
+    SPR(c,PLANE,PLANE_PAL,px-10,py-4);
+  }};
+}
+const PLACE_COL={banco:"#4a6fa5",biblioteca:"#8a5a3c",aeroporto:"#5f7f9e",museu:"#c9b28a",porto:"#3f6b6b",hotel:"#a0465a",
+  mercado:"#c97b3a",embaixada:"#6b6f8a",cafe:"#7a4e3a",estacao:"#5a6b4a"};
+function sceneInvestigate(cityId,placeId,hour,attack){
+  const atk=attack!=null?ATTACKS[attack]:null, pl=PLACE[placeId];
+  const dur=atk?2.8:2.0;
+  return {dur,sign:`${pl.nome}`,cap:`<span class="pix">${pl.ic} ${esc(pl.nome)}</span>`,
+  draw(c,t,api){
+    drawSky(c,hour,t,90,hashStr(cityId));drawCity(c,cityId,hour,t,76);R(c,0,0,FW,90,"rgba(10,14,24,0.35)");
+    const n=skyPhase(hour)==="noite", col=PLACE_COL[placeId]||"#666";
+    R(c,52,18,64,58,col);R(c,52,18,64,3,"rgba(255,255,255,0.18)");R(c,50,16,68,3,"#2a2e3a");
+    for(let y=34;y<54;y+=9)for(let x=58;x<112;x+=10){if(x>78&&x<92)continue;R(c,x,y,6,6,n?"#ffe066":"#b9d6ef");R(c,x,y+3,6,1,"rgba(0,0,0,.2)");}
+    R(c,62,22,44,9,"#1a1c2c");R(c,63,23,42,7,"#f4efe0");
+    let wt=t; if(atk){ if(t>0.9&&t<1.7) wt=0.9; else if(t>=1.7) wt=t-0.8; }
+    const doorOpen=wt>1.25&&wt<1.85;
+    R(c,79,60,12,16,doorOpen?"#0d0f16":"#3b2a22");if(!doorOpen)R(c,88,68,1,2,"#ffcd3c");
+    const k=Math.min(1,wt/1.25), dx=-12+k*91;
+    if(wt<1.55){const fr=Math.floor(wt*7)%2;SPR(c,wt<1.25?(fr?DET_A:DET_B):DET_B,DET_PAL,dx,61);
+      if(wt<1.25&&Math.floor(wt*7)!==Math.floor((wt-0.02)*7)&&fr)beep(220,.02,"square",.02);}
+    if(atk){
+      if(t>0.45&&t<0.9){const k2=(t-0.45)/0.45;SPR(c,KNIFE,KNIFE_PAL,160-k2*(160-dx-6),64);api.once("w",()=>beep(900,.15,"sawtooth",.03));}
+      if(t>=0.9) api.once("hit",()=>{fxFlash("flash");sfx.danger();api.cap(`<span class="warn">⚠️ ${esc(atk.t)}</span>`);});
+      if(t>=0.9&&t<1.7){R(c,dx+3,56,1,3,"#ff004d");R(c,dx+6,55,1,4,"#ff004d");}
+    }
+  }};
+}
+function sceneSleep(cityId){
+  return {dur:2.0,cap:`<span class="pix">Boa noite...</span><div class="sub">Você dormiu no hotel e acordou às 07:00</div>`,
+  draw(c,t){drawSky(c,23,t,90,hashStr(cityId));drawCity(c,cityId,23,t,80,{lightsOff:Math.min(1,t/1.2)});
+    for(let i=0;i<3;i++){const p=((t*0.8+i*0.33)%1);SPR(c,ZZ,{z:`rgba(255,255,255,${1-p})`},70+i*6+Math.sin(p*6)*3,60-p*45);}
+  }};
+}
+function sceneCapture(cityId,outcome,hour){
+  const ok=outcome==="preso";
+  return {dur:ok?4.2:3.4,hold:600,cap:`<span class="pix">Esconderijo encontrado!</span>`,
+  draw(c,t,api){
+    drawSky(c,Math.max(20,hour),t,90,hashStr(cityId));drawCity(c,cityId,21,t,76);R(c,0,0,FW,90,"rgba(5,8,16,0.45)");
+    const wk=Math.min(1,t/1.2), dx=-12+wk*78, fr=Math.floor(t*7)%2;
+    SPR(c,t<1.2?(fr?DET_A:DET_B):DET_B,DET_PAL,dx,61);
+    if(ok){
+      SPR(c,t>2.6?DET_B:DET_A,t>2.6?SUS_CUFF:SUS_PAL,112,61,true);
+      if(t>1.3){const k=Math.min(1,(t-1.3)/0.9);SPR(c,CAR,CAR_PAL,160-k*28,64);
+        const on=Math.floor(t*6)%2;R(c,0,0,FW,90,on?"rgba(255,0,77,0.16)":"rgba(41,173,255,0.16)");
+        api.once("sir",()=>{let i=0;const iv=setInterval(()=>{beep(i%2?660:880,.18,"square",.03);if(++i>7)clearInterval(iv);},220);});}
+      if(t>2.6){api.once("p",()=>{api.cap(`<span class="pix big-cap ok">PRESO!</span>`);sfx.win();});
+        R(c,108,66,10,2,"#d8dde6");R(c,110,65,2,4,"#d8dde6");R(c,115,65,2,4,"#d8dde6");}
+    } else {
+      const run=t>1.3?(t-1.3)*120:0;SPR(c,Math.floor(t*10)%2?DET_A:DET_B,SUS_PAL,112+run,61,true);
+      if(t>1.3){for(let i=0;i<3;i++)R(c,108+run-6-i*5,74,3,1,"rgba(200,200,200,.5)");
+        api.once("f",()=>{api.cap(`<span class="pix big-cap bad">${outcome==="errado"?"PESSOA ERRADA!":"ESCAPOU!"}</span>`);sfx.lose();});}
+    }
+  }};
+}
+function sceneTimeout(){
+  return {dur:2.6,hold:500,cap:`<span class="pix big-cap bad">TEMPO ESGOTADO</span>`,
+  draw(c,t){R(c,0,0,FW,90,"#0b0f1f");CIRC(c,80,45,30,"#f4efe0");CIRC(c,80,45,27,"#1d2b53");CIRC(c,80,45,25,"#f4efe0");
+    for(let i=0;i<12;i++){const a=i/12*Math.PI*2;R(c,80+Math.cos(a)*21,45+Math.sin(a)*21,1,1,"#1d2b53");}
+    const sp=Math.max(0,2-t)*8,a1=t*sp-Math.PI/2,a2=t*sp/12-Math.PI/2;
+    for(let r=0;r<18;r++)R(c,80+Math.cos(a1)*r,45+Math.sin(a1)*r,2,2,"#e0393e");
+    for(let r=0;r<12;r++)R(c,80+Math.cos(a2)*r,45+Math.sin(a2)*r,2,2,"#1a1c2c");
+    if(t>2&&Math.floor(t*6)%2)R(c,0,0,FW,90,"rgba(224,57,62,0.25)");}};
+}
+function playStamp(name){return new Promise(res=>{
+  const m=$("#modal");m.innerHTML=`<div class="modal stampwrap"><div class="stamp"><div class="pix">MANDADO</div><div class="pix sm">DE PRISÃO</div><div class="nm">${esc(name)}</div></div></div>`;
+  setTimeout(()=>beep(120,.2,"square",.08),280);
+  const done=()=>{m.innerHTML="";res();};m.onclick=done;setTimeout(done,1600);
+});}
+
+/* Máquina de escrever */
+let TYPE_TOKEN=0;
+function typeAll(){
+  const tok=++TYPE_TOKEN;const els=[...document.querySelectorAll("[data-type]")];
+  const texts=els.map(e=>e.textContent);els.forEach(e=>{e.textContent="";e.classList.add("typing");});
+  let i=0,j=0,skip=false;
+  const host=els[0]&&els[0].closest(".card");if(host)host.addEventListener("click",()=>{skip=true;},{once:true});
+  (function step(){if(tok!==TYPE_TOKEN)return;
+    if(i>=els.length)return;
+    if(skip){els.forEach((e,k)=>{e.textContent=texts[k];e.classList.remove("typing");});return;}
+    const s=texts[i];j+=2;els[i].textContent=s.slice(0,j);if(j%6===0)beep(1200,.015,"square",.012);
+    if(j>=s.length){els[i].textContent=s;els[i].classList.remove("typing");i++;j=0;}
+    setTimeout(step,22);})();
+}
+
+/* Confete para vitórias */
+function confetti(cv){
+  const c=cv.getContext("2d"),W=cv.width,H=cv.height,cols=["#e0393e","#f2c14e","#3ecf8e","#29adff","#ff77a8"];
+  const ps=[...Array(70)].map(()=>({x:Math.random()*W,y:-Math.random()*H,v:20+Math.random()*30,c:cols[rnd(5)],w:Math.random()*6}));
+  let last=performance.now();
+  (function f(now){if(!document.body.contains(cv))return;const dt=(now-last)/1000;last=now;c.clearRect(0,0,W,H);
+    ps.forEach(p=>{p.y+=p.v*dt;p.x+=Math.sin(now/300+p.w)*0.3;if(p.y>H){p.y=-4;p.x=Math.random()*W;}R(c,p.x,p.y,2,2,p.c);});
+    requestAnimationFrame(f);})(last);
+}
+
+/* =========================================================
+   MÚSICA CHIPTUNE (composições originais, sintetizadas ao vivo)
+   Notação: 1 token = 1 colcheia. "-" sustenta, "." pausa, "|" só separa compassos.
+   Bateria: k = bumbo, s = caixa, h = chimbal.
+   ========================================================= */
+const THEMES={
+ title:{nome:"Tema da ACME",bpm:112,bar:8,lw:"p25",bw:"tri",
+  lead:`A4 . C5 . E5 - D5 C5 | B4 - - . A4 . G#4 . | A4 . C5 . F5 - E5 D5 | E5 - - - . . . . |
+        A5 . G5 . E5 . C5 D5 | E5 - - . F5 E5 D5 C5 | B4 . D5 . F5 - E5 D5 | C5 - B4 - A4 - - .`,
+  harm:`C4 - - - - - - - | E4 - - - - - - - | D4 - - - - - - - | G#3 - - - - - - - |
+        C4 - - - - - - - | A3 - - - - - - - | D4 - - - - - - - | E4 - - - - - - -`,
+  bass:`A2 - E3 - A2 - G2 - | F2 - C3 - F2 - E2 - | D2 - A2 - D2 - F2 - | E2 - B2 - E2 - G#2 -`,
+  drums:"k . h . s . h .", fill:"k . h . s s s s"},
+ samba:{nome:"Samba carioca",bpm:140,bar:8,lw:"p25",bw:"tri",
+  lead:`G4 C5 . E5 . G5 . E5 | F5 . D5 . B4 . G4 . | A4 C5 . F5 . A5 . G5 | E5 - - C5 D5 . . . |
+        G4 C5 . E5 . G5 . A5 | G5 . E5 . C5 . A4 . | F5 . E5 . D5 . G4 . | C5 - - - . . G4 .`,
+  bass:`C3 . G2 C3 . G2 C3 . | G2 . D3 G2 . D3 G2 . | F2 . C3 F2 . C3 F2 . | G2 . D3 G2 . B2 G2 .`,
+  drums:"k h s k h k s h", fill:"k s s k s k s s"},
+ tango:{nome:"Tango portenho",bpm:104,bar:8,lw:"p50",bw:"tri",
+  lead:`D5 - . A4 D5 . E5 F5 | E5 - . D5 C#5 - . . | E5 - . A4 E5 . F5 G5 | F5 - E5 . D5 - . . |
+        A5 - . F5 D5 . A5 . | G5 - F5 . E5 - . . | F5 . E5 . D5 . C#5 . | D5 - - . . . A4 .`,
+  bass:`D2 - - A2 D3 . A2 . | A2 - - E2 A2 . E2 . | A2 - - E2 A2 . C#3 . | D2 - - A2 D3 . A2 . |
+        D2 - - A2 D3 . F2 . | G2 - - D3 G2 . D3 . | A2 - - E2 A2 . E2 . | D2 - - A2 D2 . . .`,
+  drums:"k . . s k . s ."},
+ andes:{nome:"Flauta andina",bpm:120,bar:6,lw:"tri",bw:"p50",
+  lead:`E5 . G5 A5 - B5 | A5 . G5 E5 - . | D5 . E5 G5 - A5 | G5 - E5 D5 - . |
+        E5 . G5 A5 - B5 | D6 . B5 A5 - G5 | E5 . D5 B4 - D5 | E5 - - - . .`,
+  bass:`E2 . B2 E3 . B2 | D2 . A2 D3 . A2 | G2 . D3 G3 . D3 | D2 . A2 D3 . A2 |
+        E2 . B2 E3 . B2 | G2 . D3 G3 . D3 | D2 . A2 D3 . A2 | E2 . B2 E3 . .`,
+  drums:"k . h s . h"},
+ mexico:{nome:"Mariachi",bpm:150,bar:6,lw:"p25",bw:"tri",
+  lead:`D5 . G5 . B5 . | A5 - G5 . F#5 . | G5 . E5 . C5 . | D5 - - . . . |
+        D5 . F#5 . A5 . | C6 - B5 . A5 . | B5 . G5 . A5 F#5 | G5 - - . . .`,
+  harm:`B4 . D5 . G5 . | F#5 - E5 . D5 . | E5 . C5 . A4 . | B4 - - . . . |
+        B4 . D5 . F#5 . | A5 - G5 . F#5 . | G5 . E5 . F#5 D5 | B4 - - . . .`,
+  bass:`G2 . B2 . D3 . | G2 . B2 . D3 . | C3 . E3 . G3 . | G2 . B2 . D3 . |
+        D2 . F#2 . A2 . | D2 . F#2 . A2 . | D2 . F#2 . C3 . | G2 . B2 . D3 .`,
+  drums:"k . h . h ."},
+ jazz:{nome:"Jazz de cidade grande",bpm:128,bar:8,lw:"p25",bw:"tri",swing:true,
+  lead:`A4 C5 . D5 Eb5 E5 . C5 | F5 - . D5 C5 . A4 . | Bb4 D5 . F5 Ab5 G5 . F5 | D5 - - . . . C5 . |
+        A4 C5 . D5 F5 . A5 . | G5 . F5 . D5 C5 . A4 | G4 . Bb4 . D5 . E5 . | F5 - - . . . . .`,
+  bass:`F2 - A2 - C3 - A2 - | Bb2 - D3 - F3 - D3 - | Bb2 - D3 - F3 - Ab2 - | F2 - A2 - C3 - Eb3 - |
+        F2 - A2 - C3 - A2 - | D2 - F2 - A2 - D3 - | G2 - Bb2 - C3 - E2 - | F2 - C3 - F2 - - -`,
+  drums:"k . h h s . h h"},
+ valsa:{nome:"Valsa",bpm:170,bar:6,lw:"p50",bw:"tri",
+  lead:`A4 - D5 - F#5 - | A5 - - - F#5 G5 | A5 - G5 - E5 - | E5 - - - . . |
+        B4 - E5 - G5 - | B5 - - - G5 A5 | B5 - A5 - F#5 - | D5 - - - . .`,
+  bass:`D2 - A2 - A2 - | D2 - A2 - A2 - | A2 - E3 - E3 - | A2 - C#3 - E3 - |
+        E2 - B2 - B2 - | E2 - G2 - B2 - | A2 - E3 - C#3 - | D2 - A2 - D3 -`,
+  drums:"k . h . h ."},
+ medit:{nome:"Tarantela mediterrânea",bpm:190,bar:6,lw:"p25",bw:"tri",
+  lead:`E5 E5 E5 F5 E5 D5 | C5 . B4 A4 . . | D5 D5 D5 E5 D5 C5 | B4 . A4 G#4 . . |
+        A4 B4 C5 D5 E5 F5 | G5 . F5 E5 . . | F5 E5 D5 C5 B4 G#4 | A4 - - . . .`,
+  bass:`A2 . E3 A2 . E3 | A2 . E3 A2 . E3 | E2 . B2 E2 . B2 | E2 . G#2 E2 . B2 |
+        A2 . E3 A2 . E3 | C3 . G3 C3 . G3 | D3 . A2 E2 . G#2 | A2 . E3 A2 . .`,
+  drums:"k . h s . h"},
+ marcha:{nome:"Marcha do norte",bpm:116,bar:8,lw:"p25",bw:"tri",
+  lead:`D5 . . D5 G5 . A5 . | B5 . A5 . G5 . D5 . | E5 . . E5 C5 . E5 . | D5 - - . . . D5 . |
+        G5 . . G5 B5 . G5 . | A5 . F#5 . D5 . F#5 . | G5 . E5 . F#5 . A5 . | G5 - - . . . . .`,
+  bass:`G2 . D3 . G2 . D3 . | G2 . D3 . G2 . B2 . | C3 . G2 . C3 . G2 . | D3 . A2 . D3 . F#2 . |
+        G2 . D3 . G2 . D3 . | D3 . A2 . D3 . A2 . | C3 . G2 . D3 . D2 . | G2 . D3 . G2 . . .`,
+  drums:"k . s s k . s ."},
+ russo:{nome:"Dança russa",bpm:132,bar:8,lw:"p25",bw:"tri",
+  lead:`B4 . E5 . F#5 . G5 . | F#5 . E5 . D#5 . E5 . | G5 . F#5 . E5 . D5 . | E5 - - . . . B4 . |
+        C5 . C5 . E5 . A5 . | G5 . F#5 . E5 . B4 . | C5 . B4 . A4 . F#4 . | E4 - - . . . . .`,
+  bass:`E2 . B2 . E2 . B2 . | B2 . F#2 . B2 . F#2 . | E2 . B2 . G2 . B2 . | E2 . B2 . E2 . . . |
+        A2 . E3 . A2 . E3 . | E2 . B2 . E2 . G2 . | A2 . E2 . B2 . D#3 . | E2 . B2 . E2 . . .`,
+  drums:"k . h . k . h ."},
+ oriente:{nome:"Melodia do bazar",bpm:112,bar:8,lw:"p12",bw:"tri",
+  lead:`D5 . Eb5 . F#5 . G5 . | A5 - - . G5 F#5 Eb5 . | F#5 . G5 . A5 . Bb5 . | A5 - - . . . . . |
+        C6 . Bb5 . A5 . G5 . | F#5 . G5 . Eb5 . F#5 . | D5 . Eb5 F#5 G5 . F#5 Eb5 | D5 - - . . . . .`,
+  bass:`D2 . . D3 . . A2 .`,
+  drums:"k . h k s . h ."},
+ africa:{nome:"Ritmo da savana",bpm:124,bar:8,lw:"p12",bw:"tri",
+  lead:`C5 . E5 G5 . E5 . C5 | D5 . . C5 A4 . G4 . | C5 . E5 G5 . A5 . G5 | E5 - - . . . . . |
+        G5 . A5 G5 . E5 . D5 | E5 . D5 C5 . A4 . C5 | D5 . E5 . D5 . C5 A4 | C5 - - . . . . .`,
+  bass:`C3 . . G2 . C3 . G2 | F2 . . C3 . F2 . C3 | C3 . . G2 . C3 . G2 | G2 . . D3 . G2 . D3`,
+  drums:"k h . s h k s h"},
+ india:{nome:"Raga",bpm:100,bar:8,lw:"p12",bw:"tri",
+  lead:`A4 . . B4 C#5 . D5 . | E5 - D5 C#5 B4 - . . | F#5 . E5 . G#5 . F#5 . | E5 - - - . . . . |
+        A5 . G#5 . F#5 . E5 . | F#5 - E5 D5 C#5 - . . | B4 . C#5 . E5 . D5 C#5 | D5 - - - . . . .`,
+  bass:`D2 - - - A2 - - -`,
+  drums:"k . h k . s h ."},
+ asia:{nome:"Pentatônica oriental",bpm:96,bar:8,lw:"p12",bw:"tri",
+  lead:`E5 . . G5 A5 . . . | G5 . E5 . D5 - . . | C5 . D5 . E5 . G5 . | E5 - - - . . . . |
+        A5 . . C6 A5 . G5 . | E5 . . G5 E5 . D5 . | C5 . D5 . E5 . D5 C5 | A4 - - - . . . .`,
+  bass:`A2 - - - E3 - - - | G2 - - - D3 - - - | C3 - - - G2 - - - | A2 - - - E3 - - -`,
+  drums:"k . . h . . s ."},
+ oceania:{nome:"Surf australiano",bpm:150,bar:8,lw:"p25",bw:"tri",
+  lead:`E5 . E5 . A5 . E5 . | F#5 . E5 . C#5 . A4 . | D5 . D5 . F#5 . D5 . | E5 - - . . . . . |
+        E5 . A5 . C#6 . B5 A5 | B5 . A5 . F#5 . E5 . | D5 . F#5 . E5 . D5 B4 | A4 - - . . . . .`,
+  bass:`A2 . A2 . E3 . A2 . | A2 . C#3 . E3 . A2 . | D2 . D2 . A2 . D3 . | E2 . E2 . B2 . E3 . |
+        A2 . A2 . E3 . A2 . | E2 . G#2 . B2 . E3 . | D2 . F#2 . E2 . E2 . | A2 . E2 . A2 . . .`,
+  drums:"k h s h k k s h"}
+};
+const CITY_THEME={rio:"samba",ba:"tango",lima:"andes",santiago:"andes",cdmx:"mexico",ny:"jazz",montreal:"jazz",
+  londres:"marcha",oslo:"marcha",reykjavik:"marcha",paris:"valsa",viena:"valsa",roma:"medit",atenas:"medit",lisboa:"medit",madri:"medit",
+  moscou:"russo",istambul:"oriente",cairo:"oriente",nairobi:"africa",cabo:"africa",dakar:"africa",delhi:"india",katmandu:"india",
+  pequim:"asia",toquio:"asia",seul:"asia",bangkok:"asia",singapura:"asia",sydney:"oceania"};
+
+const NI={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+function toMidi(n){const m=/^([A-G])(#|b)?(\d)$/.exec(n);if(!m)return null;return NI[m[1]]+(m[2]==="#"?1:m[2]==="b"?-1:0)+(+m[3]+1)*12;}
+function tokens(str){return str.replace(/\|/g," ").trim().split(/\s+/);}
+function parseLine(str){const tk=tokens(str),ev=[];
+  for(let i=0;i<tk.length;i++){const t=tk[i];if(t==="."||t==="-")continue;let len=1;while(tk[i+len]==="-")len++;ev.push({s:i,m:toMidi(t),len});}
+  return {ev,n:tk.length};}
+function compileTheme(id,variant){
+  const T=THEMES[id], lead=parseLine(T.lead), L=lead.n, steps=[...Array(L)].map(()=>[]);
+  const h=variant?hashStr(variant):0, tr=variant?[0,2,-2,3,-1][h%5]:0, bpm=T.bpm*(variant?1+((h>>3)%5-2)*0.03:1);
+  const add=(line,ch)=>{if(!line)return;const p=parseLine(line);for(let r=0;r<L;r+=p.n)p.ev.forEach(e=>{if(r+e.s<L)steps[r+e.s].push({ch,m:e.m+tr,len:e.len});});};
+  add(T.lead,"lead");add(T.harm,"harm");add(T.bass,"bass");
+  const dr=tokens(T.drums),fl=T.fill?tokens(T.fill):null;
+  for(let i=0;i<L;i++){const bar=Math.floor(i/T.bar),last=(bar%4)===3;const d=(last&&fl?fl:dr)[i%T.bar];if(d&&d!==".")steps[i].push({ch:"drum",d});}
+  return {id,L,bpm,steps,swing:!!T.swing,lw:T.lw,bw:T.bw,nome:T.nome};
+}
+
+const MS={id:null,th:null,gain:null,step:0,next:0,timer:null,waves:{},noise:null,master:null};
+function getAC(){if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();return AC;}
+function musicOn(){return !S.player||S.player.musica!==false;}
+function waveOsc(ac,type){
+  const o=ac.createOscillator();
+  if(type==="tri"){o.type="triangle";return o;}
+  const d={p50:.5,p25:.25,p12:.125}[type]||.5;
+  if(!MS.waves[type]){const n=32,re=new Float32Array(n),im=new Float32Array(n);for(let i=1;i<n;i++)re[i]=2/(i*Math.PI)*Math.sin(i*Math.PI*d);MS.waves[type]=ac.createPeriodicWave(re,im);}
+  o.setPeriodicWave(MS.waves[type]);return o;
+}
+function noiseBuf(ac){if(MS.noise)return MS.noise;const b=ac.createBuffer(1,ac.sampleRate*0.3,ac.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return MS.noise=b;}
+function mNote(ac,dest,type,midi,t,dur,vol){
+  const o=waveOsc(ac,type),g=ac.createGain();o.frequency.value=440*Math.pow(2,(midi-69)/12);
+  g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(vol,t+0.008);g.gain.setValueAtTime(vol*0.75,t+Math.min(dur*0.4,0.08));
+  g.gain.setValueAtTime(vol*0.75,t+dur*0.9);g.gain.linearRampToValueAtTime(0.0001,t+dur);
+  o.connect(g);g.connect(dest);o.start(t);o.stop(t+dur+0.02);
+}
+function mDrum(ac,dest,d,t){
+  if(d==="k"){const o=ac.createOscillator(),g=ac.createGain();o.type="sine";o.frequency.setValueAtTime(140,t);o.frequency.exponentialRampToValueAtTime(40,t+0.12);
+    g.gain.setValueAtTime(0.32,t);g.gain.exponentialRampToValueAtTime(0.0001,t+0.15);o.connect(g);g.connect(dest);o.start(t);o.stop(t+0.16);return;}
+  const s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=noiseBuf(ac);f.type="highpass";
+  f.frequency.value=d==="s"?1400:7000;const len=d==="s"?0.12:0.035;
+  g.gain.setValueAtTime(d==="s"?0.12:0.05,t);g.gain.exponentialRampToValueAtTime(0.0001,t+len);
+  s.connect(f);f.connect(g);g.connect(dest);s.start(t);s.stop(t+len+0.01);
+}
+function musicTick(){
+  const ac=AC,th=MS.th;if(!ac||!th)return;
+  const sd=60/th.bpm/2;
+  if(MS.next<ac.currentTime-0.2)MS.next=ac.currentTime+0.05;
+  while(MS.next<ac.currentTime+0.15){
+    const t=MS.next+(th.swing&&MS.step%2?sd*0.22:0);
+    th.steps[MS.step].forEach(e=>{
+      if(e.ch==="drum")mDrum(ac,MS.gain,e.d,t);
+      else if(e.ch==="lead")mNote(ac,MS.gain,th.lw,e.m,t,e.len*sd*0.95,0.055);
+      else if(e.ch==="harm")mNote(ac,MS.gain,"p50",e.m,t,e.len*sd*0.95,0.025);
+      else mNote(ac,MS.gain,th.bw,e.m,t,e.len*sd*0.9,th.bw==="tri"?0.11:0.04);
+    });
+    MS.next+=sd;MS.step=(MS.step+1)%th.L;
+  }
+}
+function setMusic(key){
+  if(!musicOn())key=null;
+  if(key===MS.id)return;
+  MS.id=key;
+  let ac;try{ac=getAC();}catch(e){return;}
+  if(!MS.master){MS.master=ac.createGain();MS.master.gain.value=0.9;MS.master.connect(ac.destination);}
+  if(MS.gain){const old=MS.gain;old.gain.setTargetAtTime(0.0001,ac.currentTime,0.15);setTimeout(()=>{try{old.disconnect();}catch(e){}},1200);}
+  MS.gain=null;MS.th=null;
+  if(!key){if(MS.timer){clearInterval(MS.timer);MS.timer=null;}return;}
+  const [kind,cid]=key.split(":");
+  const themeId=kind==="city"?(CITY_THEME[cid]||"title"):key;
+  MS.th=compileTheme(themeId,kind==="city"?cid:null);
+  MS.gain=ac.createGain();MS.gain.gain.setValueAtTime(0.0001,ac.currentTime);MS.gain.gain.setTargetAtTime(1,ac.currentTime+0.05,0.2);MS.gain.connect(MS.master);
+  MS.step=0;MS.next=ac.currentTime+0.15;
+  if(!MS.timer)MS.timer=setInterval(musicTick,30);
+}
+function desiredMusic(){
+  if(!S.player||!S.caso)return"title";
+  const C=S.caso;if(C.status==="briefing")return"title";if(C.status==="fim")return null;
+  return"city:"+C.cur;
+}
+function themeName(cid){return THEMES[CITY_THEME[cid]||"title"].nome;}
+document.addEventListener("pointerdown",()=>{try{const ac=getAC();if(ac.state==="suspended")ac.resume();}catch(e){}if(!BUSY)setMusic(desiredMusic());},true);
+document.addEventListener("visibilitychange",()=>{try{if(!AC)return;if(document.hidden)AC.suspend();else AC.resume();}catch(e){}});
+
+/* =========================================================
+   NUVEM (Cloudflare Worker + KV) — igual ao Fabricio Finance:
+   usuário + senha → PBKDF2 (600 mil iterações) → 512 bits
+     256 bits = chave AES-GCM (o progresso é cifrado no aparelho)
+     256 bits = token de acesso (o servidor só confere o SHA-256 dele com o segredo SAVE_AUTH_HASH)
+   Só aparece quando o jogo roda no próprio domínio (com /api/status respondendo).
+   ========================================================= */
+const CLOUD={avail:false,status:null,sess:null,rev:0,state:"off",timer:null,pushing:false,dirty:false,last:0,busyLogin:false,err:""};
+const SESS_KEY="carmen_cloud_v1";
+const te=new TextEncoder(),td=new TextDecoder();
+const toHex=b=>Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,"0")).join("");
+const toB64=u=>{u=new Uint8Array(u);let s="";for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode(...u.subarray(i,i+0x8000));return btoa(s);};
+const fromB64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function sha256Hex(t){return toHex(await crypto.subtle.digest("SHA-256",te.encode(t)));}
+async function deriveSess(user,pass){
+  const base=await crypto.subtle.importKey("raw",te.encode(pass),"PBKDF2",false,["deriveBits"]);
+  const bits=new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",
+    salt:te.encode("carmen-sandiego:v1:"+user.trim().toLowerCase()),iterations:600000},base,512));
+  const sess={user:user.trim(),key:toB64(bits.slice(0,32)),token:toHex(bits.slice(32))};
+  bits.fill(0);
+  sess.hash=await sha256Hex(sess.token);
+  return sess;
+}
+let AES=null;
+async function aesKey(){if(!AES)AES=await crypto.subtle.importKey("raw",fromB64(CLOUD.sess.key),{name:"AES-GCM"},false,["encrypt","decrypt"]);return AES;}
+async function encryptObj(o){const iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},await aesKey(),te.encode(JSON.stringify(o)));return {v:1,iv:toB64(iv),ct:toB64(ct)};}
+async function decryptObj(b){const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:fromB64(b.iv)},await aesKey(),fromB64(b.ct));return JSON.parse(td.decode(pt));}
+function apiSave(method,body,keepalive){
+  const h={"Authorization":"Bearer "+CLOUD.sess.token};if(body)h["Content-Type"]="application/json";
+  return fetch("/api/save",{method,headers:h,body:body?JSON.stringify(body):undefined,cache:"no-store",keepalive:!!keepalive});
+}
+function cloudSetState(st,err){CLOUD.state=st;CLOUD.err=err||"";if(st==="ok")CLOUD.last=Date.now();refreshCloudUI();}
+function refreshCloudUI(){
+  const b=document.getElementById("cloudBadge");if(b)b.outerHTML=cloudBadge();
+  const box=document.getElementById("cloudBox");if(box&&!CLOUD.busyLogin){box.outerHTML=cloudBox();bindCloud();}
+}
+function snapshot(){return {player:S.player,caso:S.caso,updatedAt:S.updatedAt||0};}
+function applyRemote(d){
+  S.player=d.player||null;S.caso=d.caso||null;S.updatedAt=d.updatedAt||0;
+  S.msg=null;S.sel=null;S.dossieMsg=null;S.showTravel=false;S.tab="cidade";
+  saveLocal();
+  if(!BUSY){render();toast("☁️ Progresso trazido da nuvem");}
+}
+async function cloudInit(){
+  try{
+    const ctl=new AbortController();setTimeout(()=>ctl.abort(),5000);
+    const r=await fetch("/api/status",{cache:"no-store",signal:ctl.signal});
+    const j=await r.json();
+    if(typeof j!=="object"||!("kv" in j))return;
+    CLOUD.avail=true;CLOUD.status=j;
+  }catch(e){return;}
+  try{CLOUD.sess=JSON.parse(localStorage.getItem(SESS_KEY)||"null");}catch(e){}
+  if(CLOUD.sess)await cloudPull();
+  if(!BUSY)render();
+}
+async function cloudPull(){
+  if(!CLOUD.sess)return;
+  cloudSetState("sync");
+  try{
+    const r=await apiSave("GET");
+    if(r.status===401)return cloudSetState("auth");
+    if(r.status===503){CLOUD.status=await r.json().catch(()=>CLOUD.status);return cloudSetState("setup");}
+    if(r.status===204){CLOUD.rev=0;cloudSetState("ok");if(S.player)scheduleCloud(100);return;}
+    if(!r.ok)return cloudSetState("erro","Resposta "+r.status);
+    const j=await r.json();CLOUD.rev=j.rev;
+    let d;try{d=await decryptObj(j.blob);}catch(e){return cloudSetState("auth","Não foi possível abrir o progresso salvo. Confira usuário e senha.");}
+    if((d.updatedAt||0)>(S.updatedAt||0)||!S.player)applyRemote(d);
+    else if((d.updatedAt||0)<(S.updatedAt||0))scheduleCloud(100);
+    cloudSetState("ok");
+  }catch(e){cloudSetState("offline");}
+}
+function scheduleCloud(ms){
+  if(!CLOUD.avail||!CLOUD.sess)return;
+  CLOUD.dirty=true;clearTimeout(CLOUD.timer);
+  CLOUD.timer=setTimeout(()=>cloudPush(false),ms==null?2500:ms);
+}
+async function cloudPush(keepalive){
+  if(!CLOUD.sess||!CLOUD.dirty)return;
+  if(CLOUD.pushing){CLOUD.timer=setTimeout(()=>cloudPush(false),800);return;}
+  if(CLOUD.state==="auth"||CLOUD.state==="setup")return;
+  CLOUD.pushing=true;CLOUD.dirty=false;cloudSetState("sync");
+  try{
+    const blob=await encryptObj(snapshot());
+    const r=await apiSave("PUT",{baseRev:CLOUD.rev,blob},keepalive);
+    if(r.status===200){CLOUD.rev=(await r.json()).rev;cloudSetState("ok");}
+    else if(r.status===409){
+      const j=await r.json();CLOUD.rev=j.rev;
+      let d=null;try{if(j.blob)d=await decryptObj(j.blob);}catch(e){}
+      if(d&&(d.updatedAt||0)>(S.updatedAt||0))applyRemote(d);else CLOUD.dirty=true;
+      cloudSetState("ok");
+    }
+    else if(r.status===401){CLOUD.dirty=true;cloudSetState("auth");}
+    else if(r.status===503){CLOUD.dirty=true;cloudSetState("setup");}
+    else{CLOUD.dirty=true;cloudSetState("erro","Resposta "+r.status);}
+  }catch(e){CLOUD.dirty=true;cloudSetState("offline");}
+  finally{CLOUD.pushing=false;if(CLOUD.dirty&&CLOUD.state==="ok")scheduleCloud(500);}
+}
+async function cloudLogin(user,pass){
+  if(!user.trim()||pass.length<6){CLOUD.err="Informe um usuário e uma senha com pelo menos 6 caracteres.";refreshCloudUI();return;}
+  CLOUD.busyLogin=true;
+  const box=document.getElementById("cloudBox");if(box)box.querySelector("#cLogin").innerHTML=`<span class="ic">⏳</span><span>Gerando chave segura…</span>`;
+  try{
+    const s=await deriveSess(user,pass);
+    CLOUD.sess=s;AES=null;
+    try{localStorage.setItem(SESS_KEY,JSON.stringify(s));}catch(e){}
+  }finally{CLOUD.busyLogin=false;}
+  await cloudPull();
+  refreshCloudUI();
+}
+function cloudLogout(){
+  CLOUD.sess=null;AES=null;CLOUD.rev=0;CLOUD.state="off";CLOUD.err="";
+  try{localStorage.removeItem(SESS_KEY);}catch(e){}
+  render();
+}
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&CLOUD.dirty){clearTimeout(CLOUD.timer);cloudPush(true);}});
+window.addEventListener("online",()=>{if(CLOUD.sess&&CLOUD.state==="offline")cloudPull();});
+
+function cloudBadge(){
+  if(!CLOUD.avail)return `<span id="cloudBadge"></span>`;
+  const m={ok:["☁️","Sincronizado"],sync:["🔄","Sincronizando…"],offline:["📴","Sem conexão"],auth:["⚠️","Nuvem: configurar"],setup:["⚠️","Nuvem: configurar"],erro:["⚠️","Erro na nuvem"],off:["☁️","Nuvem desligada"]};
+  const [i,t]=CLOUD.sess?(m[CLOUD.state]||m.off):m.off;
+  return `<span id="cloudBadge" class="cbadge ${CLOUD.state}">${i} ${t}</span>`;
+}
+function cloudBox(){
+  if(!CLOUD.avail)return `<div id="cloudBox"></div>`;
+  const st=CLOUD.status||{};
+  let h=`<div class="card" id="cloudBox"><h2>☁️ Salvamento na nuvem</h2>`;
+  if(!CLOUD.sess){
+    h+=`<p class="mute" style="margin-bottom:10px">Entre com um usuário e senha para salvar automaticamente e continuar em qualquer aparelho (celular, TV, computador). Use os mesmos dados em todos.</p>
+      <div class="stack"><input type="text" id="cUser" placeholder="Usuário" autocomplete="username" autocapitalize="off">
+      <input type="password" id="cPass" placeholder="Senha (mín. 6 caracteres)" autocomplete="current-password" style="width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:11px 12px;font:inherit">
+      <button class="btn primary wide" id="cLogin"><span class="ic">🔐</span><span>Entrar</span></button></div>
+      <p class="mute" style="margin-top:8px;font-size:12px">Não existe “esqueci a senha”: ela é a chave que cifra seu progresso.</p>`;
+  } else if(CLOUD.state==="auth"||CLOUD.state==="setup"){
+    const naoTemSegredo=CLOUD.state==="setup"||st.secret===false;
+    h+=`<p style="margin-bottom:8px">Conectado como <b>${esc(CLOUD.sess.user)}</b>, mas o servidor ainda não reconhece este acesso.</p>`;
+    if(st.kv===false) h+=`<p class="warn" style="color:var(--red2);margin-bottom:8px">O armazenamento KV <b>SAVE</b> não está ligado ao Worker. Faça um novo deploy.</p>`;
+    h+=`<p class="mute" style="margin-bottom:8px">${naoTemSegredo?"Primeiro acesso:":"Se for o primeiro acesso:"} no Cloudflare, abra o Worker › Settings › Variables and Secrets › Add › tipo <b>Secret</b>, nome <b>SAVE_AUTH_HASH</b> e cole este código. Depois clique em Deploy.</p>
+      <textarea readonly id="cHash" rows="2" style="width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--gold);border-radius:10px;padding:10px;font:12px ui-monospace,monospace;resize:none">${CLOUD.sess.hash}</textarea>
+      <div style="height:8px"></div><div class="row"><button class="btn" id="cCopy"><span class="ic">📋</span><span>Copiar código</span></button>
+      <button class="btn primary" id="cRetry"><span class="ic">🔄</span><span>Tentar de novo</span></button></div>
+      ${naoTemSegredo?"":`<p class="mute" style="margin-top:8px;font-size:13px">Já cadastrou antes? Então o usuário ou a senha estão diferentes dos usados no primeiro aparelho.</p>`}
+      <div style="height:8px"></div><button class="btn wide" id="cOut"><span class="ic">↩️</span><span>Usar outro usuário</span></button>`;
+  } else {
+    const quando=CLOUD.last?new Date(CLOUD.last).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}):"—";
+    h+=`<p>Conectado como <b>${esc(CLOUD.sess.user)}</b>.</p>
+      <p class="mute" style="margin:6px 0 10px">${CLOUD.state==="offline"?"Sem conexão agora. O progresso fica salvo no aparelho e sobe quando a internet voltar.":CLOUD.state==="erro"?esc(CLOUD.err):`Tudo salvo automaticamente. Última sincronização: ${quando}.`}</p>
+      <div class="row"><button class="btn" id="cSync"><span class="ic">🔄</span><span>Sincronizar agora</span></button>
+      <button class="btn" id="cOut"><span class="ic">↩️</span><span>Sair</span></button></div>`;
+  }
+  if(CLOUD.err&&CLOUD.state!=="erro")h+=`<p style="color:var(--red2);margin-top:8px;font-size:14px">${esc(CLOUD.err)}</p>`;
+  return h+`</div>`;
+}
+function bindCloud(){
+  const l=$("#cLogin");if(l)l.onclick=()=>cloudLogin($("#cUser").value,$("#cPass").value);
+  const p=$("#cPass");if(p)p.onkeydown=e=>{if(e.key==="Enter")cloudLogin($("#cUser").value,p.value);};
+  const c=$("#cCopy");if(c)c.onclick=async()=>{const ta=$("#cHash");try{await navigator.clipboard.writeText(ta.value);c.querySelector("span:last-child").textContent="Copiado!";}catch(e){ta.focus();ta.select();}};
+  const r=$("#cRetry");if(r)r.onclick=async()=>{try{const j=await (await fetch("/api/status",{cache:"no-store"})).json();CLOUD.status=j;}catch(e){}CLOUD.dirty=true;await cloudPull();if(CLOUD.state==="ok"&&S.player)scheduleCloud(100);};
+  const s=$("#cSync");if(s)s.onclick=async()=>{await cloudPull();if(CLOUD.dirty)cloudPush(false);};
+  const o=$("#cOut");if(o)o.onclick=()=>confirmBox("Sair da nuvem neste aparelho? O progresso continua salvo aqui e na nuvem.",cloudLogout);
+}
+function toast(t){const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),3000);}
+
+/* =========================================================
+   AÇÕES
+   ========================================================= */
+let BUSY=false;
+async function investigate(i){
+  const C=S.caso; if(BUSY||C.status!=="jogando") return;
+  sfx.click();
+  const d=cityData(C.cur), L=d.locs[i], pl=PLACE[L.pl], hour0=C.t%24, city=C.cur;
+  const first=!d.seen.includes(i);
+  let cost=1;
+  if(first){ cost=[1,2,2][C.visits[C.cur]||0]||2; C.visits[C.cur]=(C.visits[C.cur]||0)+1; d.seen.push(i);}
+  const atkIdx=first&&L.attack!=null?L.attack:null;
+  const extra=atkIdx!=null?ATTACKS[atkIdx].h:0;
+  const scenes=[()=>sceneInvestigate(city,L.pl,hour0,atkIdx)];
+  const r=spend(cost+extra);
+  if(r.over){ setMusic(null); scenes.push(()=>sceneTimeout()); }
+  else if(L.type==="capture"){
+    setMusic(null);
+    const sus=GANG.find(x=>x.id===C.suspect);
+    const out=C.warrant===sus.id?"preso":(C.warrant?"errado":"semmandado");
+    scenes.push(()=>sceneCapture(city,out,hour0));
+    endCase(out);
+  } else {
+    const sus=GANG.find(x=>x.id===C.suspect);
+    let html=`<div class="who">${pl.ic} ${esc(pl.quem)}</div>`;
+    if(atkIdx!=null) html+=`<div class="say warn" data-type>⚠️ ${esc(ATTACKS[atkIdx].t)}</div><div style="height:8px"></div>`;
+    html+=`<div class="say" data-type>“${esc(L.text)}${L.traitText?" "+esc(L.traitText):""}”</div>`;
+    if(r.slept){html+=`<div class="sys">🌙 Já era tarde. Você dormiu no hotel e acordou às 07:00.</div>`;scenes.push(()=>sceneSleep(city));}
+    S.msg=html; S.fresh=true;
+    if(first){
+      if(L.type==="clue"||L.type==="near") C.notes.push({city:C.cur,place:pl.nome,text:L.text+(L.traitText?" "+L.traitText:"")});
+      if(L.trait) C.known[L.trait]=sus[L.trait];
+    }
+  }
+  save();
+  await playAll(scenes);
+  render();
+}
+
+async function travel(dest){
+  const C=S.caso; if(BUSY||C.status!=="jogando") return;
+  setMusic(null);
+  const from=C.cur, h=travelHours(from,dest), hour0=C.t%24;
+  C.cur=dest; C.trail.push(dest);
+  const ri=C.route.indexOf(dest); if(ri>=0) C.lastGood=ri;
+  const r=spend(h);
+  const scenes=[()=>sceneTravel(from,dest,h,hour0)];
+  if(r.over) scenes.push(()=>sceneTimeout());
+  else{
+    S.msg=`<div class="who">✈️ Viagem</div><div class="say" data-type>Você voou ${h} horas e desembarcou em ${CITY[dest].nome}.</div>`+
+      (r.slept?`<div class="sys">🌙 Você chegou tarde e dormiu até as 07:00.</div>`:"");
+    S.fresh=true;
+    if(r.slept) scenes.push(()=>sceneSleep(dest));
+  }
+  S.tab="cidade"; S.showTravel=false;
+  save();
+  await playAll(scenes);
+  render();
+}
+
+async function computeWarrant(sel){
+  const C=S.caso; if(BUSY) return;
+  const keys=TRAIT_ORDER.filter(k=>sel[k]);
+  const matches=GANG.filter(o=>keys.every(k=>o[k]===sel[k]));
+  const r=spend(1);
+  if(r.over){save();await playAll([()=>sceneTimeout()]);render();return;}
+  if(matches.length===1 && keys.length>0){
+    C.warrant=matches[0].id;
+    S.dossieMsg=`<b>Mandado de prisão emitido</b> contra <b>${esc(matches[0].nome)}</b>.`;
+    save(); BUSY=true; await playStamp(matches[0].nome); BUSY=false;
+  } else if(matches.length===0){
+    C.warrant=null; S.dossieMsg="Nenhum membro da V.I.L.E. combina com essas características."; sfx.lose();
+  } else {
+    C.warrant=null; S.dossieMsg=`${matches.length} suspeitos combinam: ${matches.map(m=>esc(m.nome)).join(", ")}. Você precisa de mais pistas.`; sfx.click();
+  }
+  save(); render();
+}
+
+function endCase(kind){
+  const C=S.caso; C.status="fim"; C.result=kind;
+  if(kind==="preso"){
+    const before=rankIndex(S.player.solved);
+    S.player.solved++;
+    if(C.carmen) S.player.carmenPresa=true;
+    C.promoted = rankIndex(S.player.solved)>before;
+  }
+  S.tab="cidade";
+  save();
+}
+
+/* =========================================================
+   RENDERIZAÇÃO
+   ========================================================= */
+function render(){ renderInner(); if(!BUSY) setMusic(desiredMusic()); }
+function renderInner(){
+  const app=$("#app");
+  const tabs=$("#tabs");
+  if(!S.player){ tabs.classList.add("hide"); app.innerHTML=viewStart(); bindStart(); return; }
+  if(!S.caso){ tabs.classList.add("hide"); app.innerHTML=viewHome(); bindHome(); return; }
+  const C=S.caso;
+  if(C.status==="briefing"){ tabs.classList.add("hide"); app.innerHTML=viewBriefing(); bindBriefing(); return; }
+  if(C.status==="fim"){ tabs.classList.add("hide"); app.innerHTML=viewEnd(); bindEnd(); return; }
+  tabs.classList.remove("hide");
+  tabs.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.tab===S.tab));
+  let body="";
+  if(S.tab==="cidade") body=viewCity();
+  else if(S.tab==="dossie") body=viewDossier();
+  else if(S.tab==="notas") body=viewNotes();
+  else if(S.tab==="mapa") body=viewMap();
+  else if(S.tab==="menu") body=viewMenu();
+  app.innerHTML=header()+clock()+`<div class="fade">${body}</div>`;
+  bindGame();
+  if(S.fresh&&S.tab==="cidade"){S.fresh=false;typeAll();}
+}
+
+function header(){
+  const p=S.player;
+  return `<div class="top"><div class="brand pix" style="font-size:10px">ACME <b>•</b> DETETIVES</div>
+    <div class="badge"><strong>${esc(rankOf(p.solved).nome)}</strong>${esc(p.nome)} · ${p.solved} caso${p.solved===1?"":"s"}${CLOUD.avail?"<br>"+cloudBadge():""}</div></div>`;
+}
+function clock(){
+  const C=S.caso, pct=Math.min(100,((C.t-START_T)/(DEADLINE_T-START_T))*100);
+  return `<div class="clock"><span>🕘</span><span class="t">${fmtTime(C.t)}</span>
+    <div class="bar"><i style="width:${pct}%"></i></div><span class="dl">prazo: Dom 17:00</span></div>`;
+}
+
+function viewStart(){
+  return `<div class="card hero fade">
+    <div class="logo">Agência ACME</div>
+    <canvas class="banner crt" style="margin:-34px -18px 18px;width:calc(100% + 36px)" width="160" height="64" data-banner="paris" data-hour="21"></canvas>
+    <h1 class="pix" style="font-size:20px;line-height:1.6">Onde Está<br><b>Carmen Sandiego?</b></h1>
+    <p>A gangue V.I.L.E. está roubando tesouros pelo mundo. Siga as pistas, viaje entre cidades, descubra quem é o ladrão e consiga um mandado antes do prazo.</p>
+    <div class="stack" style="max-width:340px;margin:0 auto">
+      <input type="text" id="nome" maxlength="20" placeholder="Seu nome, detetive" autocomplete="off">
+      <button class="btn primary wide" id="go"><span class="ic">🕵️</span><span>Registrar na ACME</span></button>
+    </div></div>
+    <div class="card"><h2>Como jogar</h2><ul class="list">
+      <li>🔎 <b>Investigar:</b> visite os locais da cidade e ouça as testemunhas. Cada visita gasta horas.</li>
+      <li>✈️ <b>Viajar:</b> use as pistas para descobrir o próximo destino do ladrão.</li>
+      <li>🗂️ <b>Dossiê:</b> junte as características do suspeito e emita um mandado de prisão.</li>
+      <li>⏰ Você tem de segunda 9h até domingo 17h. À noite você dorme automaticamente.</li>
+      <li>🚨 Sem mandado (ou com o mandado errado), o ladrão escapa!</li></ul></div>`+cloudBox()+loadBox();
+}
+function bindStart(){
+  const go=()=>{const n=$("#nome").value.trim()||"Detetive";S.player={nome:n,solved:0,som:true,musica:true,carmenPresa:false};save();render();};
+  $("#go").onclick=go; $("#nome").onkeydown=e=>{if(e.key==="Enter")go();};
+  bindSaveLoad(); bindCloud();
+}
+
+function viewHome(){
+  const p=S.player, ri=rankIndex(p.solved), r=RANKS[ri], nx=RANKS[ri+1];
+  return header()+`<div class="card hero fade">
+    <div class="big">🕵️</div>
+    <h1 style="font-size:26px">Bem-vindo, ${esc(p.nome)}</h1>
+    <p>Patente atual: <b style="color:var(--gold)">${esc(r.nome)}</b><br>
+    ${nx?`Faltam ${nx.min-p.solved} prisão(ões) para virar <b>${esc(nx.nome)}</b>.`:(p.carmenPresa?"Você está no Hall da Fama da ACME!":"Só falta uma coisa: prender a própria Carmen Sandiego.")}</p>
+    <button class="btn primary wide" id="novo"><span class="ic">📨</span><span>Aceitar novo caso</span></button>
+    </div>
+    <div class="card"><h2>Patentes da ACME</h2><ul class="list">
+    ${RANKS.map((k,i)=>`<li>${i<=ri?"⭐":"▫️"} <b>${esc(k.nome)}</b><span class="c">a partir de ${k.min} prisões · rota com ${k.rota} cidades</span></li>`).join("")}</ul></div>
+    <div class="row"><button class="btn" id="som"><span class="ic">${p.som?"🔊":"🔇"}</span><span>Efeitos ${p.som?"ligados":"desligados"}</span></button>
+    <button class="btn" id="mus"><span class="ic">${p.musica!==false?"🎵":"🔕"}</span><span>Música ${p.musica!==false?"ligada":"desligada"}</span></button></div><div style="height:10px"></div>
+    <div class="row"><button class="btn" id="reset"><span class="ic">🗑️</span><span>Novo detetive</span></button></div><div style="height:12px"></div>`+cloudBox()+saveBox()+loadBox();
+}
+function bindHome(){
+  $("#novo").onclick=()=>{newCase();render();};
+  $("#som").onclick=()=>{S.player.som=!S.player.som;save();render();};
+  $("#mus").onclick=()=>{S.player.musica=S.player.musica===false;save();render();};
+  $("#reset").onclick=()=>confirmBox("Apagar este detetive e todo o progresso?",()=>{S.player=null;S.caso=null;save();render();});
+  bindSaveLoad(); bindCloud();
+}
+
+function viewBriefing(){
+  const C=S.caso, c=CITY[C.route[0]];
+  const sx=C.known.sexo==="Feminino"?"feminino":"masculino";
+  return header()+`<div class="card fade city"><canvas class="banner crt" width="160" height="64" data-banner="${c.id}" data-hour="${C.t%24}" data-alarm="1"></canvas>
+    <div class="who" style="color:var(--red2);font-weight:800;letter-spacing:1px;font-size:12px">📡 TRANSMISSÃO URGENTE DA ACME</div>
+    <h2 style="font-size:22px;margin-top:6px">Roubo em ${esc(c.nome)}! ${c.flag}</h2>
+    <p style="font-size:17px;margin-bottom:10px" data-type>Um tesouro nacional desapareceu: ${esc(C.loot)}.</p>
+    ${C.carmen?`<p class="warn" style="color:var(--red2);font-weight:700;margin-bottom:10px">Os relatórios indicam que a própria Carmen Sandiego está por trás deste roubo!</p>`:""}
+    <p data-type>Uma pessoa do sexo ${sx} foi vista no local do crime.</p>
+    <p style="margin-top:10px">Sua missão: seguir o ladrão até o esconderijo e prendê-lo até <b>domingo às 17:00</b>. Lembre-se: só é possível prender alguém com um <b>mandado de prisão</b>.</p>
+    <p class="mute" style="margin-top:10px">Boa sorte, ${esc(rankOf(S.player.solved).nome.toLowerCase())} ${esc(S.player.nome)}.</p>
+    <div style="height:14px"></div>
+    <button class="btn primary wide" id="start"><span class="ic">🚀</span><span>Começar investigação</span></button></div>`;
+}
+function bindBriefing(){ typeAll(); setTimeout(()=>beep(880,.12,"square",.03),100); $("#start").onclick=()=>{S.caso.status="jogando";sfx.click();save();render();}; }
+
+function viewCity(){
+  const C=S.caso, c=CITY[C.cur], d=cityData(C.cur);
+  const n=C.visits[C.cur]||0;
+  let html=`<div class="card city"><canvas class="banner crt" width="160" height="64" data-banner="${c.id}" data-hour="${C.t%24}"></canvas><span class="flag">${c.flag}</span><h1 class="pix">${esc(c.nome)}</h1>
+    <div class="country">${esc(c.pais)}${musicOn()?` · <span class="pill">♪ ${esc(themeName(c.id))}</span>`:""}</div><p>${esc(c.desc)}</p></div>`;
+  html+=`<div class="card msg">${S.msg||`<div class="who">📍 Você está em ${esc(c.nome)}</div><div class="say mute">Escolha um local para investigar ou viaje para outra cidade.</div>`}</div>`;
+  if(S.showTravel){
+    const opts=travelOptions(C.cur);
+    html+=`<h3>Para onde voar?</h3><div class="grid">`+opts.map(o=>`<button class="btn" data-go="${o}"><span class="ic">${CITY[o].flag}</span><span>${esc(CITY[o].nome)}<small>${esc(CITY[o].pais)} · ${travelHours(C.cur,o)}h de voo</small></span></button>`).join("")+
+      `<button class="btn wide" id="cancel"><span>Voltar</span></button></div>`;
+  } else {
+    html+=`<h3>Investigar</h3><div class="grid">`+d.locs.map((L,i)=>{
+      const pl=PLACE[L.pl], seen=d.seen.includes(i);
+      return `<button class="btn" data-inv="${i}"><span class="ic">${pl.ic}</span><span>${esc(pl.nome)}<small>${seen?"já visitado · 1h":`${[1,2,2][n]||2}h`}</small></span></button>`;}).join("")+
+      `<button class="btn primary" id="viajar"><span class="ic">✈️</span><span>Viajar<small>ver destinos</small></span></button></div>`;
+    html+=`<div class="warrant ${C.warrant?"":"none"}">${C.warrant?`📜 Mandado de prisão: <b>${esc(GANG.find(x=>x.id===C.warrant).nome)}</b>`:"📜 Nenhum mandado emitido ainda. Use o Dossiê."}</div>`;
+  }
+  return html;
+}
+
+function viewDossier(){
+  const C=S.caso, sel=S.sel||(S.sel={});
+  const filt=GANG.filter(o=>TRAIT_ORDER.every(k=>!sel[k]||o[k]===sel[k]));
+  let html=`<div class="card"><h2>🗂️ Computador da ACME</h2>
+    <p class="mute" style="margin-bottom:12px">Selecione o que você sabe sobre o suspeito. Se só uma pessoa combinar, o mandado é emitido (custa 1h).</p>
+    <div class="sel">`+TRAIT_ORDER.map(k=>`<label>${TRAITS[k].nome}</label><select data-tr="${k}"><option value="">?</option>${TRAITS[k].ops.map(o=>`<option ${sel[k]===o?"selected":""}>${o}</option>`).join("")}</select>`).join("")+
+    `</div><div style="height:12px"></div>
+    <div class="row"><button class="btn" id="usar"><span class="ic">📓</span><span>Usar pistas</span></button>
+    <button class="btn primary" id="computar"><span class="ic">💻</span><span>Computar</span></button></div>
+    ${S.dossieMsg?`<div class="warrant">${S.dossieMsg}</div>`:""}
+    <div class="warrant ${C.warrant?"":"none"}">${C.warrant?`📜 Mandado ativo: <b>${esc(GANG.find(x=>x.id===C.warrant).nome)}</b>`:"📜 Sem mandado."}</div></div>`;
+  html+=`<h3>Fichas da V.I.L.E. (${filt.length} de ${GANG.length} combinam)</h3><div class="crooks">`+GANG.map(o=>{
+    const ok=filt.includes(o);
+    const ini=o.nome.split(" ").map(w=>w[0]).slice(0,2).join("");
+    return `<div class="crook ${ok?(filt.length===1?"match":""):"out"}"><span class="av" style="background:${o.cor}">${ini}</span><b>${esc(o.nome)}</b>
+    ${TRAIT_ORDER.map(k=>`<span class="tag ${sel[k]&&sel[k]===o[k]?"known":""}">${o[k]}</span>`).join("")}
+    <div class="mute" style="margin-top:6px;font-size:12px">${esc(o.bio)}</div></div>`;}).join("")+`</div>`;
+  return html;
+}
+
+function viewNotes(){
+  const C=S.caso;
+  const known=TRAIT_ORDER.filter(k=>C.known[k]);
+  let html=`<div class="card"><h2>📓 Caderno do detetive</h2>
+    <p><b>Caso:</b> ${esc(C.loot)} (${esc(CITY[C.route[0]].nome)})</p>
+    <h3>O que se sabe do suspeito</h3>
+    <div>${known.map(k=>`<span class="tag known">${TRAITS[k].nome}: ${C.known[k]}</span>`).join("")}</div>
+    <p class="mute" style="margin-top:8px;font-size:13px">As características são anotadas aqui automaticamente quando uma testemunha as menciona.</p></div>`;
+  html+=`<div class="card"><h3 style="margin-top:0">Depoimentos</h3>`;
+  if(!C.notes.length) html+=`<p class="mute">Nenhum depoimento ainda.</p>`;
+  else{
+    const by={};C.notes.forEach(n=>{(by[n.city]=by[n.city]||[]).push(n);});
+    html+=Object.keys(by).map(cid=>`<div style="margin-bottom:10px"><b>${CITY[cid].flag} ${esc(CITY[cid].nome)}</b><ul class="list">${by[cid].map(n=>`<li>${esc(n.text)}<span class="c">${esc(n.place)}</span></li>`).join("")}</ul></div>`).join("");
+  }
+  html+=`</div>`;
+  return html;
+}
+
+function proj(c){return {x:(c.lon+180)/360*720, y:(90-c.lat)/180*360};}
+function viewMap(){
+  const C=S.caso;
+  let lines="";
+  for(let i=1;i<C.trail.length;i++){
+    const a=proj(CITY[C.trail[i-1]]),b=proj(CITY[C.trail[i]]);
+    lines+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#e0393e" stroke-width="1.6" stroke-dasharray="4 3" opacity=".8"/>`;
+  }
+  let grid="";
+  for(let x=0;x<=720;x+=60) grid+=`<line x1="${x}" y1="0" x2="${x}" y2="360" stroke="#1b2436"/>`;
+  for(let y=0;y<=360;y+=60) grid+=`<line x1="0" y1="${y}" x2="720" y2="${y}" stroke="#1b2436"/>`;
+  grid+=`<line x1="0" y1="180" x2="720" y2="180" stroke="#2a3550" stroke-dasharray="2 4"/>`;
+  const visited=new Set(C.trail);
+  const dots=CITIES.map(c=>{const p=proj(c),cur=c.id===C.cur,v=visited.has(c.id);
+    return `<g><circle cx="${p.x}" cy="${p.y}" r="${cur?6:3.2}" fill="${cur?"#f2c14e":v?"#e0393e":"#56627d"}">${cur?`<animate attributeName="r" values="5;8;5" dur="1.6s" repeatCount="indefinite"/>`:""}</circle>
+    ${(cur||v)?`<text x="${p.x+7}" y="${p.y+4}" font-size="11" fill="#e8ecf4">${esc(c.nome)}</text>`:""}</g>`;}).join("");
+  return `<div class="card map"><h2>🗺️ Rota da investigação</h2>
+    <svg viewBox="0 0 720 360" role="img" aria-label="Mapa da rota">${grid}${lines}${dots}</svg>
+    <p class="mute" style="margin-top:10px">🟡 posição atual · 🔴 cidades visitadas · ⚪ demais cidades</p></div>
+    <div class="card"><h3 style="margin-top:0">Trajeto</h3><p>${C.trail.map(id=>esc(CITY[id].nome)).join(" → ")}</p></div>`;
+}
+
+function viewMenu(){
+  const p=S.player;
+  return `<div class="card stack"><h2>⚙️ Menu</h2>
+    <button class="btn wide" id="som"><span class="ic">${p.som?"🔊":"🔇"}</span><span>Efeitos ${p.som?"ligados":"desligados"}</span></button>
+    <button class="btn wide" id="mus"><span class="ic">${p.musica!==false?"🎵":"🔕"}</span><span>Música ${p.musica!==false?"ligada":"desligada"}</span></button>
+    <button class="btn wide" id="desistir"><span class="ic">🏳️</span><span>Abandonar caso</span></button>
+    <button class="btn wide" id="reset"><span class="ic">🗑️</span><span>Apagar detetive</span></button>
+    <p class="mute">O código abaixo guarda inclusive o caso em andamento.</p></div>`+cloudBox()+saveBox()+loadBox();
+}
+
+function viewEnd(){
+  const C=S.caso, sus=GANG.find(x=>x.id===C.suspect), c=CITY[C.cur];
+  const wr=C.warrant?GANG.find(x=>x.id===C.warrant):null;
+  let icon,title,text;
+  const o=sus.sexo==="Feminino"?"a":"o";
+  if(C.result==="preso"){
+    icon="🚔"; title="Ladr"+(o==="a"?"a":"ão")+" na cadeia!";
+    text=`Você encurralou <b>${esc(sus.nome)}</b> em ${esc(c.nome)} e efetuou a prisão. ${esc(C.loot.charAt(0).toUpperCase()+C.loot.slice(1))} foi devolvid${/^(a|as|uma) /.test(C.loot)?"a":"o"} ao seu lugar.`;
+    if(C.carmen) text+=`<br><br><b style="color:var(--gold)">Inacreditável! Você prendeu a própria Carmen Sandiego e entrou para o Hall da Fama da ACME!</b>`;
+    if(C.promoted) text+=`<br><br>🎖️ <b>Promoção!</b> Sua nova patente é <b style="color:var(--gold)">${esc(rankOf(S.player.solved).nome)}</b>.`;
+  } else if(C.result==="errado"){
+    icon="🤦"; title="Pessoa errada!";
+    text=`Seu mandado era contra <b>${esc(wr.nome)}</b>, mas quem estava escondid${o} em ${esc(c.nome)} era <b>${esc(sus.nome)}</b>. ${sus.sexo==="Feminino"?"Ela":"Ele"} fugiu enquanto você pedia desculpas.`;
+  } else if(C.result==="semmandado"){
+    icon="🏃"; title="Escapou!";
+    text=`Você encontrou <b>${esc(sus.nome)}</b> em ${esc(c.nome)}, mas sem mandado de prisão não pôde prendê-l${o}. ${sus.sexo==="Feminino"?"Ela":"Ele"} sumiu na multidão.`;
+  } else {
+    icon="⌛"; title="Tempo esgotado!";
+    text=`O prazo acabou. <b>${esc(sus.nome)}</b> conseguiu escapar com ${esc(C.loot)}. O esconderijo era em ${esc(CITY[C.route[C.route.length-1]].nome)}.`;
+  }
+  return header()+`<div class="card hero fade">${C.result==="preso"?`<canvas class="endcv" id="confetti" width="160" height="200"></canvas>`:""}<div class="big">${icon}</div><h1 class="pix" style="font-size:18px;line-height:1.6">${title}</h1><p style="color:var(--txt)">${text}</p>
+    <p class="mute">Rota do ladrão: ${C.route.map(id=>esc(CITY[id].nome)).join(" → ")}</p>
+    <div style="height:10px"></div>${C.result==="preso"?`<button class="btn wide" id="endCopy" style="margin-bottom:10px"><span class="ic">💾</span><span>Copiar código de salvamento</span></button><div id="endMsg" class="mute" style="margin-bottom:8px"></div>`:""}<button class="btn primary wide" id="voltar"><span class="ic">🏢</span><span>Voltar para a ACME</span></button></div>`;
+}
+function bindEnd(){ const ec=$("#endCopy"); if(ec) ec.onclick=async()=>{const code=(()=>{const c=S.caso;S.caso=null;const x=exportCode();S.caso=c;return x;})();
+    try{await navigator.clipboard.writeText(code);$("#endMsg").textContent="Código copiado! Guarde em um lugar seguro.";}catch(e){$("#endMsg").textContent="Não deu para copiar aqui. Use Menu → Salvar progresso.";}}; const cf=$("#confetti"); if(cf) confetti(cf); $("#voltar").onclick=()=>{S.caso=null;S.msg=null;S.sel=null;S.dossieMsg=null;save();render();}; }
+
+function confirmBox(text,yes){
+  $("#modal").innerHTML=`<div class="modal"><div class="card fade"><p style="margin-bottom:14px">${esc(text)}</p>
+    <div class="row"><button class="btn" id="mno"><span>Cancelar</span></button><button class="btn primary" id="myes"><span>Confirmar</span></button></div></div></div>`;
+  $("#mno").onclick=()=>{$("#modal").innerHTML="";};
+  $("#myes").onclick=()=>{$("#modal").innerHTML="";yes();};
+}
+
+function bindGame(){
+  document.querySelectorAll("[data-inv]").forEach(b=>b.onclick=()=>investigate(+b.dataset.inv));
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>travel(b.dataset.go));
+  const v=$("#viajar"); if(v) v.onclick=()=>{S.showTravel=true;sfx.click();render();};
+  const cc=$("#cancel"); if(cc) cc.onclick=()=>{S.showTravel=false;render();};
+  document.querySelectorAll("[data-tr]").forEach(s=>s.onchange=()=>{S.sel[s.dataset.tr]=s.value||undefined;S.dossieMsg=null;render();});
+  const u=$("#usar"); if(u) u.onclick=()=>{S.sel=Object.assign({},S.caso.known);S.dossieMsg=null;sfx.click();render();};
+  const cp=$("#computar"); if(cp) cp.onclick=()=>computeWarrant(S.sel||{});
+  const so=$("#som"); if(so) so.onclick=()=>{S.player.som=!S.player.som;save();render();};
+  const mu=$("#mus"); if(mu) mu.onclick=()=>{S.player.musica=S.player.musica===false;save();render();};
+  const de=$("#desistir"); if(de) de.onclick=()=>confirmBox("Abandonar este caso? O ladrão vai escapar.",()=>{S.caso=null;S.msg=null;S.sel=null;S.dossieMsg=null;save();render();});
+  bindSaveLoad(); bindCloud();
+  const rs=$("#reset"); if(rs) rs.onclick=()=>confirmBox("Apagar este detetive e todo o progresso?",()=>{S.player=null;S.caso=null;save();render();});
+}
+$("#tabs").addEventListener("click",e=>{const b=e.target.closest("button[data-tab]");if(!b)return;S.tab=b.dataset.tab;S.showTravel=false;if(S.tab!=="cidade"){} sfx.click();render();window.scrollTo(0,0);});
+
+load();
+render();
+cloudInit();
+</script>
+</body>
+</html>
