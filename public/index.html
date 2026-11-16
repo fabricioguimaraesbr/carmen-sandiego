@@ -606,7 +606,7 @@ function rankIndex(solved){let i=0;RANKS.forEach((k,j)=>{if(solved>=k.min)i=j;})
 /* Som discreto (WebAudio) */
 let AC=null;
 /* A música abaixa 80% enquanto um efeito sonoro toca (ignora os cliques curtinhos de digitação e passos). */
-const MUSIC_BASE=0.45, DUCK_LEVEL=0.2;
+const MUSIC_BASE=0.09, DUCK_LEVEL=0.2, SFX_GAIN=1.6; // música 80% mais baixa que antes; efeitos 60% mais altos
 let duckTimer=null;
 function duckMusic(ms){
   if(!AC||typeof MS==="undefined"||!MS.master) return;
@@ -619,7 +619,7 @@ function beep(f=660,d=0.06,type="sine",vol=0.05){
   if(!S.player||!S.player.som) return;
   if(d>=0.1) duckMusic(d*1000+450);
   try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
-    const o=AC.createOscillator(),gn=AC.createGain();o.type=type;o.frequency.value=f;gn.gain.value=vol;
+    const o=AC.createOscillator(),gn=AC.createGain();o.type=type;o.frequency.value=f;gn.gain.value=vol*SFX_GAIN;
     o.connect(gn);gn.connect(AC.destination);o.start();gn.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+d);o.stop(AC.currentTime+d+0.02);}catch(e){}
 }
 const sfx={
