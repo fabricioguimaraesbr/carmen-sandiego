@@ -2,10 +2,11 @@
 
 Recriação, com código novo, do jogo de detetive do Master System. Você é um agente da ACME e persegue a gangue V.I.L.E. pelo mundo: investiga locais, segue pistas, viaja entre cidades e emite um mandado de prisão antes do prazo.
 
-- **30 cidades** com descrição, tesouro roubado e pistas próprias, além de 10 membros da V.I.L.E. com dossiê.
+- **68 cidades** (8 delas brasileiras), cada uma com descrição, tesouro roubado e 8 pistas próprias, além de 20 membros da V.I.L.E. com dossiê.
+- **16 tipos de local** para investigar, **eventos aleatórios** (voo atrasado, greve, atalhos) e **testemunhas mentirosas** a partir de Investigador-Chefe.
 - **Animações em pixel art**: voos, caminhada até os locais, ataques de capangas, noite no hotel, carimbo do mandado, prisão e fuga.
 - **Trilha sonora 8-bit original** gerada pelo navegador, com um tema por região do mundo e variações por cidade.
-- **6 patentes** de Detetive Novato a Superdetetive, e o caso final contra a própria Carmen.
+- **9 patentes** de Detetive Novato a Superdetetive, com rotas mais longas e prazos mais apertados a cada nível, e o caso final contra a própria Carmen.
 - **Salvamento automático na nuvem** cifrado, para continuar em qualquer aparelho, mais um código de backup manual.
 
 ## Como funciona o salvamento
